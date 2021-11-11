@@ -6,5 +6,5 @@
   - name: Active users
     shell: w
     register: users
-  - debug: msg={{user.stdout}}
-  - debug: msg={{user.stderr}}
+  - debug: msg={{users.stdout}}
+  - debug: msg={{users.stderr}}
