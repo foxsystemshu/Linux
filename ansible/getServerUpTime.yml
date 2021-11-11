@@ -1,6 +1,7 @@
 ---
 
 - name: Get server uptime
+  become: yes
   hosts: linux
   tasks:
     - name: Get uptime
