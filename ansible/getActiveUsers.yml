@@ -10,7 +10,7 @@
   
   - name: save data to out file
     copy:
-      src: "ansible-users-log.out"
+      dest: "ansible-users-log.out"
       content: "{{users.stdout}}"
   
   - debug: msg={{users.stdout}}
