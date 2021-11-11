@@ -6,7 +6,7 @@
   - name: Active users
     shell: w
     register: users
-- local_action:
-    module: copy
-    content: "{{users}}"
-    dest: /tmp/ansible-users-log.out
+  - name: save data to out file
+    copy:
+      dest: "/tmp/ansible-users-log.out"
+      content: {{users}} 
