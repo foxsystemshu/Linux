@@ -6,9 +6,9 @@
   tasks:
     - name: Get uptime
       shell: uptime
-      register: var
-    - debug: msg="{{var.stdout}}"
-    - debug: msg="{{var.stderr}}"
+      register: var1
+    - debug: msg="{{var1.stdout}}"
+    - debug: msg="{{var1.stderr}}"
     - name: Get date
       shell: date
       register: var2
