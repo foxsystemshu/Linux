@@ -1,0 +1,10 @@
+---
+- name: Get all avtive user
+  become: yes
+  hosts: Linux
+  tasks:
+  - name: Active users
+    shell: w
+    register: users
+  - debug: msg={{user.stdout}}
+  - debug: msg={{user.stderr}}
