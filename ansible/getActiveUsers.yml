@@ -2,10 +2,10 @@
 - name: Get all avtive user
   become: yes
   hosts: linux
-  module: copy
-  content: "{{users}}"
-  dest: /tmp/ansible-users-log.out
   tasks:
   - name: Active users
     shell: w
     register: users
+    module: copy
+    content: "{{users}}"
+    dest: /tmp/ansible-users-log.out
