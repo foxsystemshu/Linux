@@ -9,4 +9,4 @@
   - name: save data to out file
     copy:
       dest: "/tmp/ansible-users-log.out"
-      content: {{users}} 
+      content: "{{users}}" 
