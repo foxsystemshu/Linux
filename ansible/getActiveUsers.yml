@@ -1,0 +1,17 @@
+---
+- name: Get all avtive user
+  become: yes
+  hosts: linux
+  tasks:
+  
+  - name: Active users
+    shell: w
+    register: users
+  
+  - name: save data to out file
+    copy:
+      dest: "ansible-users-log.out"
+      content: "{{users.stdout}}"
+  
+  - debug: msg={{users.stdout}}
+  - debug: msg={{users.stderr}}

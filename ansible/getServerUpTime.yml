@@ -1,0 +1,16 @@
+---
+
+- name: Get server uptime
+  become: yes
+  hosts: linux
+  tasks:
+    - name: Get uptime
+      shell: uptime
+      register: var1
+    - debug: msg="{{var1.stdout}}"
+    - debug: msg="{{var1.stderr}}"
+    - name: Get date
+      shell: date
+      register: var2
+    - debug: msg="{{var2.stdout}}"
+    - debug: msg="{{var2.stderr}}"
