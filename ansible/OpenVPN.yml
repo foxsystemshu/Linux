@@ -1,0 +1,25 @@
+---
+- name: OpenVPN Install and configuriation
+  become: yes
+  hosts: HRM-VPN
+  tasks:
+  - name: Update
+    yum:
+      name: '*'
+      state: latest
+    register: result2
+
+  - name: EPEL install
+    yum:
+      name: epel-release
+      state: latest
+ 
+  - name: Install OpenVPN
+    yum:
+      name: openvpn
+      state: latest
+    register: yum_openvpn
+  
+  - debug:
+       var: yum_openvpn.results
+

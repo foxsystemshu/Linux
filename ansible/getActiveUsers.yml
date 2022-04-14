@@ -1,7 +1,7 @@
 ---
 - name: Get all avtive user
   become: yes
-  hosts: linux
+  hosts: HRM-VPN
   tasks:
   
   - name: Active users
