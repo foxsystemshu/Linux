@@ -79,7 +79,7 @@ function ICMP_testing {
 }
 
 function get_Routing_table {
-    table_xml=""
+    table_xml=''
     table_start_xml="<RouteTable>"
     table_end_xml="</RouteTable>"
     
@@ -96,7 +96,7 @@ function get_Routing_table {
         Use=$(echo $route | cut -f7 -d" ")
         Interface=$(echo $route | cut -f8 -d" ")
 
-          table_xml+="<route destination="${dest}" gateway="${gateway}" genmask="${Genmask}" flag="${Flag}" metric="${Metric}" ref="${ref}" use="${use}" interface="${Interface}"></>"      
+          table_xml+='<route destination="'${dest}'" gateway="'${gateway}'" genmask="'${Genmask}'" flag="'${Flag}'" metric="'${Metric}'" ref="'${Ref}'" use="'${Use}'" interface="'${Interface}'"/>'      
     done
 
     echo $table_start_xml $table_xml $table_end_xml
