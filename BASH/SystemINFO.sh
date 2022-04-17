@@ -67,17 +67,41 @@ function get_MEM_info {
     echo $mem_xml
 }
 
-#function get_NET_info {
-#
-#}
+function get_NET_info {
+    net_IP_MASK=""
+
+    line_count=$( ifconfig | grep -e inet[^6] | wc -l)
+    for i in 1 $line_count
+    do
+       line="$( ifconfig | grep -e inet[^6] | sed "${i}q;d")"
+       IP=$( echo $line | cut -f2 -d" ")
+       MASK=$( echo $line | cut -f4 -d" " )
+       net_IP_MASK+="${IP} (${MASK})\n"
+    done
+    echo -e "$net_IP_MASK"
+
+    echo "Network connection testing:"
+    echo "Phase one: Default gateway pinging..."
+    ping=$(ping -c 4 192.168.1.1)    #ToDo: Default gateway will be in variable
+    ping_received=$ping | cut -f2 -d"," 
+    ping_loss=$ping | cut -f3 -d","
+    ping_times=$ping | cut -f4 -d","
+
+    echo $ping_received
+    echo $ping_loss
+    echo $ping_times
+
+
+}
 
 function get_hw_info { 
 
    CPU=$(get_CPU_info)
    MEM=$(get_MEM_info)
    echo $root_xml_start $CPU $MEM $root_xml_end | xmllint --format -
-   
+
 }
 
 get_hw_info
+
 
