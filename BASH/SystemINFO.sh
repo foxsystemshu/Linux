@@ -136,7 +136,7 @@ function get_hw_info {
    CPU=$(get_CPU_info)
    MEM=$(get_MEM_info)
    ROUTE=$(get_Routing_table)
-   echo $root_xml_start $CPU $MEM $ROUTE $root_xml_end | xmllint --format - >> result.txt
+   echo $root_xml_start $CPU $MEM $ROUTE $root_xml_end | xmllint --format - >> result.xml
 
 }
 
