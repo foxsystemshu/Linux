@@ -82,10 +82,10 @@ function get_NET_info {
 
     echo "Network connection testing:"
     echo "Phase one: Default gateway pinging..."
-    ping=$(ping -c 4 192.168.1.1)    #ToDo: Default gateway will be in variable
-    ping_received= $( echo $ping | cut -f2 -d",") 
-    ping_loss=$( echo $ping | cut -f3 -d",")
-    ping_times=$( echo $ping | cut -f4 -d",")
+    ping=$(ping -c4 192.168.1.1)    #ToDo: Default gateway will be in variable
+    ping_received="$( echo $ping | cut -f2 -d",")" 
+    ping_loss="$( echo $ping | cut -f3 -d",")"
+    ping_times="$( echo $ping | cut -f4 -d",")"
 
     echo $ping_received
     echo $ping_loss
