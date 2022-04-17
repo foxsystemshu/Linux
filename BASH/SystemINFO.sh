@@ -103,5 +103,5 @@ function get_hw_info {
 }
 
 get_hw_info
-
+get_NET_info
 
