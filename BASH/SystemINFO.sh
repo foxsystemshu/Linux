@@ -79,12 +79,27 @@ function ICMP_testing {
 }
 
 function get_Routing_table {
+    table_xml=""
+    table_start_xml="<RouteTable>"
+    table_end_xml="</RouteTable>"
+    
     row_count=$(route | wc -l)
-    for row in 3 $row_count
+    for (( i=3; i<=$row_count; i++ ))
     do
-        route=$(route | sed "${row}q;d")
-        echo $route | cut -f1 -d" "
+        route=$(route | sed "${i}q;d")
+        dest=$(echo $route | cut -f1 -d" ")
+        gateway=$(echo $route | cut -f2 -d" ")
+        Genmask=$(echo $route | cut -f3 -d" ")
+        Flag=$(echo $route | cut -f4 -d" ")
+        Metric=$(echo $route | cut -f5 -d" ")
+        Ref=$(echo $route | cut -f6 -d" ")
+        Use=$(echo $route | cut -f7 -d" ")
+        Interface=$(echo $route | cut -f8 -d" ")
+
+          table_xml+="<route destination="${dest}" gateway="${gateway}" genmask="${Genmask}" flag="${Flag}" metric="${Metric}" ref="${ref}" use="${use}" interface="${Interface}"></>"      
     done
+
+    echo $table_start_xml $table_xml $table_end_xml
 }
 
 function get_NET_info {
@@ -109,7 +124,7 @@ function get_NET_info {
     ICMP_testing "google.com"
 
     echo -e "Phase 3. - Get routing table information... \n"
-    get_Routing_table
+    #get_Routing_table
     echo -e "$net_IP_MASK"
 
 }
@@ -120,7 +135,8 @@ function get_hw_info {
 
    CPU=$(get_CPU_info)
    MEM=$(get_MEM_info)
-   echo $root_xml_start $CPU $MEM $root_xml_end | xmllint --format -
+   ROUTE=$(get_Routing_table)
+   echo $root_xml_start $CPU $MEM $ROUTE $root_xml_end | xmllint --format -
 
 }
 
