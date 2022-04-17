@@ -109,6 +109,7 @@ function get_NET_info {
     ICMP_testing "google.com"
 
     echo -e "Phase 3. - Get routing table information... \n"
+    get_Routing_table
     echo -e "$net_IP_MASK"
 
 }
