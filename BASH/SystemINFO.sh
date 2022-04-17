@@ -23,12 +23,12 @@ function get_CPU_info {
 
     #outputs from /proc/cpuinfo --> "vendor_id : VENDOR"
 
-    Vendor_ID=$(cat /proc/cpuinfo | grep 'vendor_id' | cut -f2 -d":" | sed 's/^ *//g' )
-    Model_name=$(cat /proc/cpuinfo | grep 'model name' | cut -f2 -d":" | sed 's/^ *//g')
-    CPU_MHz=$(cat /proc/cpuinfo | grep 'cpu MHz' | cut -f2 -d":" | sed 's/^ *//g')
-    CAHCE_SIZE=$(cat /proc/cpuinfo | grep 'cache size' | cut -f2 -d":" | sed 's/^ *//g')
-    CPU_CORE_NUM=$(cat /proc/cpuinfo | grep 'cpu cores' | cut -f2 -d":" | sed 's/^ *//g')
-    CPUID_LEVEL=$(cat /proc/cpuinfo | grep 'cpuid level' | cut -f2 -d":" | sed 's/^ *//g')
+    Vendor_ID=$(cat /proc/cpuinfo | grep 'vendor_id' | head -n 1 | cut -f2 -d":" | sed 's/^ *//g' )
+    Model_name=$(cat /proc/cpuinfo | grep 'model name' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
+    CPU_MHz=$(cat /proc/cpuinfo | grep 'cpu MHz' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
+    CAHCE_SIZE=$(cat /proc/cpuinfo | grep 'cache size' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
+    CPU_CORE_NUM=$(cat /proc/cpuinfo | grep 'cpu cores' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
+    CPUID_LEVEL=$(cat /proc/cpuinfo | grep 'cpuid level' | head -n 1 |cut -f2 -d":" | sed 's/^ *//g')
 
     #outputs from 'lscpu' command
 
@@ -66,9 +66,10 @@ function get_MEM_info {
     
     echo $mem_xml
 }
-function get_NET_info {
 
-}
+#function get_NET_info {
+#
+#}
 
 function get_hw_info { 
 
