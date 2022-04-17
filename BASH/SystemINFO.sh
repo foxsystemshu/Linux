@@ -83,7 +83,7 @@ function get_Routing_table {
     for row in 3 $row_count
     do
         route=$(route | sed "${row}q;d")
-        echo route | cut -f1 -d" "
+        echo $route | cut -f1 -d" "
     done
 }
 
