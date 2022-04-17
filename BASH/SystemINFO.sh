@@ -93,9 +93,9 @@ function get_NET_info {
 
     echo "Network connection testing"
     echo "--------------------------"
-    echo "Phase 1. - Default gateway pinging..."
+    echo -e "Phase 1. - Default gateway pinging... \n"
     ICMP_testing "192.168.1.1"
-    echo "Phase 2. - Internet testing..."
+    echo -e "Phase 2. - Internet testing... \n"
     ICMP_testing "google.com"
 }
 
