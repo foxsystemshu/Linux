@@ -78,6 +78,15 @@ function ICMP_testing {
 
 }
 
+function get_Routing_table {
+    row_count=$(route | wc -l)
+    for row in 3 $row_count
+    do
+        route=$(route | sed "${row}q;d")
+        echo route | cut -f1 -d" "
+    done
+}
+
 function get_NET_info {
     net_IP_MASK=""
 
@@ -89,14 +98,19 @@ function get_NET_info {
        MASK=$( echo $line | cut -f4 -d" " )
        net_IP_MASK+="${IP} (${MASK})\n"
     done
-    echo -e "$net_IP_MASK"
+   
 
-    echo "Network connection testing"
+    echo "Gathering Network Information"
     echo "--------------------------"
     echo -e "Phase 1. - Default gateway pinging... \n"
     ICMP_testing "192.168.1.1"
+    
     echo -e "Phase 2. - Internet testing... \n"
     ICMP_testing "google.com"
+
+    echo -e "Phase 3. - Get routing table information... \n"
+    echo -e "$net_IP_MASK"
+
 }
 
 
