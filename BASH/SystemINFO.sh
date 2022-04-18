@@ -139,7 +139,7 @@ function get_hw_info {
    echo "-----------------------------"
    echo -e " Phase 1. - Get CPU information... \n"
    CPU=$(get_CPU_info)
-   echo -e " Phase 2. - Get Memeory information... \n"
+   echo -e " Phase 2. - Get Memory information... \n"
    MEM=$(get_MEM_info)
   
    #echo -e $root_xml_start $CPU $MEM $NET $root_xml_end | xmllint --format - >> result.xml
