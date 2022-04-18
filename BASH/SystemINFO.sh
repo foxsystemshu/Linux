@@ -22,7 +22,7 @@ root_xml_end="</system>"
 function get_CPU_info {
 
     #outputs from /proc/cpuinfo --> "vendor_id : VENDOR"
-
+    echo -e " Phase 1. - Get CPU information... \n"
     Vendor_ID=$(cat /proc/cpuinfo | grep 'vendor_id' | head -n 1 | cut -f2 -d":" | sed 's/^ *//g' )
     Model_name=$(cat /proc/cpuinfo | grep 'model name' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
     CPU_MHz=$(cat /proc/cpuinfo | grep 'cpu MHz' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
@@ -54,7 +54,7 @@ function get_CPU_info {
     echo $cpu_xml
 }
 function get_MEM_info {
-
+    echo -e " Phase 2. - Get Memeory information... \n"
     MemTotal=$(cat /proc/meminfo | grep 'MemTotal:' | cut -f2 -d":" | sed 's/^ *//g')
     MemFree=$(cat /proc/meminfo | grep 'MemFree:' | cut -f2 -d":" | sed 's/^ *//g')
     MemAvailable=$(cat /proc/meminfo | grep 'MemAvailable:' | cut -f2 -d":" | sed 's/^ *//g')
@@ -103,20 +103,20 @@ function get_Routing_table {
 }
 
 function get_NET_info {
-    net_IP_MASK=""
+    netxml_start="<Network>"
+    net_IP_MASK_xml=""
+    netxml_end="</Network>"
 
     line_count=$( ifconfig | grep -e inet[^6] | wc -l)
-    for i in 1 $line_count
+    for (( i=1; i<=$line_count; i++ ))
     do
        line="$( ifconfig | grep -e inet[^6] | sed "${i}q;d")"
        IP=$( echo $line | cut -f2 -d" ")
        MASK=$( echo $line | cut -f4 -d" " )
-       net_IP_MASK+="${IP} (${MASK})\n"
+       #net_IP_MASK+="${IP} (${MASK})\n"
+       net_IP_MASK_xml+='<ip address="'${IP}'" mask="'${MASK}'"/>'
     done
    
-
-    echo "Gathering Network Information"
-    echo "--------------------------"
     echo -e "Phase 1. - Default gateway pinging... \n"
     ICMP_testing "192.168.1.1"
     
@@ -124,22 +124,29 @@ function get_NET_info {
     ICMP_testing "google.com"
 
     echo -e "Phase 3. - Get routing table information... \n"
-    #get_Routing_table
-    echo -e "$net_IP_MASK"
+    ROUTE=$(get_Routing_table)
+    
+    echo -e $netxml_start $net_IP_MASK_xml $ROUTE $netxml_end
 
 }
 
 
 
 function get_hw_info { 
-
+   echo "Gathering Hardware Information"
+   echo "-----------------------------"
+   
    CPU=$(get_CPU_info)
    MEM=$(get_MEM_info)
-   ROUTE=$(get_Routing_table)
-   echo $root_xml_start $CPU $MEM $ROUTE $root_xml_end | xmllint --format - >> result.xml
+   
+   echo "Gathering Network Information"
+   echo "-----------------------------"
+   NET=$(get_NET_info)
+  
+   echo -e $root_xml_start $CPU $MEM $NET $root_xml_end | xmllint --format - >> result.xml
 
 }
 
 get_hw_info
-get_NET_info
+
 
