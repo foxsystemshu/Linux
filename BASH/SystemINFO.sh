@@ -18,11 +18,12 @@
 # Packages info: Name, Home dir, Last logon date
 root_xml_start="<system>"
 root_xml_end="</system>"
-
+NET_xml=""
+HW_xml=""
 function get_CPU_info {
 
     #outputs from /proc/cpuinfo --> "vendor_id : VENDOR"
-    echo -e " Phase 1. - Get CPU information... \n"
+   
     Vendor_ID=$(cat /proc/cpuinfo | grep 'vendor_id' | head -n 1 | cut -f2 -d":" | sed 's/^ *//g' )
     Model_name=$(cat /proc/cpuinfo | grep 'model name' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
     CPU_MHz=$(cat /proc/cpuinfo | grep 'cpu MHz' | head -n 1| cut -f2 -d":" | sed 's/^ *//g')
@@ -54,7 +55,6 @@ function get_CPU_info {
     echo $cpu_xml
 }
 function get_MEM_info {
-    echo -e " Phase 2. - Get Memeory information... \n"
     MemTotal=$(cat /proc/meminfo | grep 'MemTotal:' | cut -f2 -d":" | sed 's/^ *//g')
     MemFree=$(cat /proc/meminfo | grep 'MemFree:' | cut -f2 -d":" | sed 's/^ *//g')
     MemAvailable=$(cat /proc/meminfo | grep 'MemAvailable:' | cut -f2 -d":" | sed 's/^ *//g')
@@ -116,17 +116,19 @@ function get_NET_info {
        #net_IP_MASK+="${IP} (${MASK})\n"
        net_IP_MASK_xml+='<ip address="'${IP}'" mask="'${MASK}'"/>'
     done
+    
+   echo "Gathering Network Information"
+   echo "-----------------------------"
+   echo -e "Phase 1. - Default gateway pinging... \n"
+   ICMP_testing "192.168.1.1"
+    
+   echo -e "Phase 2. - Internet testing... \n"
+   ICMP_testing "google.com"
    
-    echo -e "Phase 1. - Default gateway pinging... \n"
-    ICMP_testing "192.168.1.1"
+   echo -e "Phase 3. - Get routing table information... \n"
+   ROUTE=$(get_Routing_table)
     
-    echo -e "Phase 2. - Internet testing... \n"
-    ICMP_testing "google.com"
-
-    echo -e "Phase 3. - Get routing table information... \n"
-    ROUTE=$(get_Routing_table)
-    
-    echo -e $netxml_start $net_IP_MASK_xml $ROUTE $netxml_end
+   NET_xml="$netxml_start $net_IP_MASK_xml $ROUTE $netxml_end"
 
 }
 
@@ -135,18 +137,19 @@ function get_NET_info {
 function get_hw_info { 
    echo "Gathering Hardware Information"
    echo "-----------------------------"
-   
+   echo -e " Phase 1. - Get CPU information... \n"
    CPU=$(get_CPU_info)
+   echo -e " Phase 2. - Get Memeory information... \n"
    MEM=$(get_MEM_info)
-   
-   echo "Gathering Network Information"
-   echo "-----------------------------"
-   NET=$(get_NET_info)
   
-   echo -e $root_xml_start $CPU $MEM $NET $root_xml_end | xmllint --format - >> result.xml
+   #echo -e $root_xml_start $CPU $MEM $NET $root_xml_end | xmllint --format - >> result.xml
+   HW_xml="$CPU $MEM"
+}
 
+function create_xml {
+    echo -e $root_xml_start $HW_xml $NET_xml $root_xml_end | xmllint --format - > result.xml
 }
 
 get_hw_info
-
-
+get_NET_info
+create_xml
