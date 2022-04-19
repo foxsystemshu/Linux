@@ -145,11 +145,35 @@ function get_hw_info {
    #echo -e $root_xml_start $CPU $MEM $NET $root_xml_end | xmllint --format - >> result.xml
    HW_xml="$CPU $MEM"
 }
+packages_xml_start="<InstalledPackages>"
+packages_xml_end="</InstalledPackages>"
+packages_xml=""
+
+function get_packages_info {
+    # we need different cases for different distros
+    apt list --installed 2>/dev/null > /tmp/package_list.txt
+    lines=$(cat /tmp/package_list.txt | wc -l)
+    packages=""
+
+    for (( i=2; i<=$lines; i++ ))
+    do
+        line="$( cat /tmp/package_list.txt | sed "${i}q;d" )"
+        
+        pname=$(echo $line | cut -f1 -d"/")
+        version=$(echo $line | cut -f2 -d" ")
+        arch=$(echo $line | cut -f3 -d" ")
+
+        packages+='<package name="'${pname}'" version="'${version}'" arch="'${arch}'"/>'
+    done
+
+    packages_xml="$packages_xml_start $packages $packages_xml_end"
+}
 
 function create_xml {
-    echo -e $root_xml_start $HW_xml $NET_xml $root_xml_end | xmllint --format - > result.xml
+    echo -e $root_xml_start $HW_xml $NET_xml $packages_xml $root_xml_end | xmllint --format - > result.xml
 }
 
 get_hw_info
 get_NET_info
+get_packages_info
 create_xml
