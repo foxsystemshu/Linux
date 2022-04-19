@@ -151,6 +151,8 @@ packages_xml=""
 
 function get_packages_info {
     # we need different cases for different distros
+     echo "Gathering Installed packages"
+     echo "-----------------------------"
     apt list --installed 2>/dev/null > /tmp/package_list.txt
     lines=$(cat /tmp/package_list.txt | wc -l)
     packages=""
