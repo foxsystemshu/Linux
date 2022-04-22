@@ -171,11 +171,34 @@ function get_packages_info {
     packages_xml="$packages_xml_start $packages $packages_xml_end"
 }
 
+users_xml_start="<Users>"
+users_xml_end="</Users>"
+users_xml=""
+function get_users_info {
+    users=""
+    user_list="$(cat /etc/passwd | grep home | awk -F ":" '{print $6}' | awk -F "/" '{print $3}' | grep [^syslog^] )"
+    user_num="$(echo $user_list | wc -w)"
+
+    for (( i=1; i<=$user_num; i++ ))
+    do
+        user="$(echo $user_list | cut -f${i} -d" ")"
+        HOME_DIR=$(eval echo ~$user )
+        #$LASTLOGON=$(last $user) Wsl last logon is empty, need a proper test linux. :) 
+        users+='<User name="'${user}'" HomeDirectory="'${HOME_DIR}'" LastLogonDate="">'
+
+    done 
+
+    users_xml="$users_xml_start $users $users_xml_end"
+
+}
+
 function create_xml {
-    echo -e $root_xml_start $HW_xml $NET_xml $packages_xml $root_xml_end | xmllint --format - > result.xml
+    echo -e $root_xml_start $HW_xml $NET_xml $packages_xml $users_xml $root_xml_end | xmllint --format - > result.xml
 }
 
 get_hw_info
 get_NET_info
 get_packages_info
+get_users_info
+
 create_xml
