@@ -184,7 +184,7 @@ function get_users_info {
         user="$(echo $user_list | cut -f${i} -d" ")"
         HOME_DIR=$(eval echo ~$user )
         #$LASTLOGON=$(last $user) Wsl last logon is empty, need a proper test linux. :) 
-        users+='<User name="'${user}'" HomeDirectory="'${HOME_DIR}'" LastLogonDate="">'
+        users+='<User name="'${user}'" HomeDirectory="'${HOME_DIR}'" LastLogonDate=""/>'
 
     done 
 
