@@ -117,7 +117,7 @@ function get_NET_info {
        net_IP_MASK_xml+='<ip address="'${IP}'" mask="'${MASK}'"/>'
     done
     
-   echo "Gathering Network Information"
+   echo "Gathering Network Informations"
    echo "-----------------------------"
    echo -e "Phase 1. - Default gateway pinging... \n"
    ICMP_testing "192.168.1.1"
@@ -135,7 +135,7 @@ function get_NET_info {
 
 
 function get_hw_info { 
-   echo "Gathering Hardware Information"
+   echo "Gathering Hardware Informations"
    echo "-----------------------------"
    echo -e " Phase 1. - Get CPU information... \n"
    CPU=$(get_CPU_info)
@@ -175,6 +175,8 @@ users_xml_start="<Users>"
 users_xml_end="</Users>"
 users_xml=""
 function get_users_info {
+    echo "Gathering User Informations"
+     echo "-----------------------------"
     users=""
     user_list="$(cat /etc/passwd | grep home | awk -F ":" '{print $6}' | awk -F "/" '{print $3}' | grep [^syslog^] )"
     user_num="$(echo $user_list | wc -w)"
