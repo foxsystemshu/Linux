@@ -27,10 +27,16 @@
     ansible.builtin.get_url:
       url: "{{easyrsa}}"
       dest: "{{easyrsa_dest}}"
-      mode: '0644'
+      mode: '0744'
       owner: root
       group: root
-
+  
+  - name: Uncompress EasyRSA archive
+    ansible.builtin.unarchive:
+      src: "/root/EasyRSA-3.0.8.tgz"
+      dest: "{{easyrsa_dest}}"
+      mode: '0744'
+  
   - debug:
        var: yum_openvpn.results
 
