@@ -6,22 +6,22 @@
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: "/root/"
   tasks:
-  - name: Update
-    yum:
-      name: '*'
-      state: latest
-    register: result2
+ # - name: Update
+ #   yum:
+  #    name: '*'
+  #    state: latest
+   # register: result2
 
-  - name: EPEL install
-    yum:
-      name: epel-release
-      state: latest
+  #- name: EPEL install
+   # yum:
+    #  name: epel-release
+     # state: latest
  
-  - name: Install OpenVPN package
-    yum:
-      name: openvpn
-      state: latest
-    register: yum_openvpn
+  #- name: Install OpenVPN package
+    #yum:
+      #name: openvpn
+      #state: latest
+    #register: yum_openvpn
 
   - name: Get EasyRSA files
     ansible.builtin.get_url:
@@ -33,7 +33,7 @@
   
   - name: Uncompress EasyRSA archive
     ansible.builtin.unarchive:
-      remote_src: "/root/EasyRSA-3.0.8.tgz"
+      src: "EasyRSA-3.0.8.tgz"
       dest: "{{easyrsa_dest}}"
       mode: '0744'
   
