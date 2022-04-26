@@ -5,7 +5,7 @@
   vars:
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: "/root/"
-    archive_file: "EasyRSA-3.0.8.tgz"
+    archive_file: "/root/EasyRSA-3.0.8.tgz"
   tasks:
  # - name: Update
  #   yum:
