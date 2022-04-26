@@ -28,7 +28,7 @@
     ansible.builtin.get_url:
       url: "{{easyrsa}}"
       dest: "{{easyrsa_dest}}"
-      mode: '0744'
+      mode: '0777'
       owner: root
       group: root
   
