@@ -33,7 +33,7 @@
   
   - name: Uncompress EasyRSA archive
     ansible.builtin.unarchive:
-      src: "/root/EasyRSA-3.0.8.tgz"
+      remote_src: "/root/EasyRSA-3.0.8.tgz"
       dest: "{{easyrsa_dest}}"
       mode: '0744'
   
