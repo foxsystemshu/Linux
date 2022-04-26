@@ -2,7 +2,7 @@
 
 - name: Get server uptime
   become: yes
-  hosts: HRM-VPN
+  hosts: VPN
   tasks:
     - name: Get uptime
       shell: uptime

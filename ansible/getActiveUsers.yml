@@ -1,7 +1,7 @@
 ---
 - name: Get all avtive user
   become: yes
-  hosts: HRM-VPN
+  hosts: VPN
   tasks:
   
   - name: Active users

@@ -1,7 +1,7 @@
 ---
 - name: OpenVPN Install and configuriation
   become: yes
-  hosts: HRM-VPN
+  hosts: VPN
   vars:
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: "/"
