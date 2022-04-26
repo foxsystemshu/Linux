@@ -4,8 +4,7 @@
   hosts: VPN
   vars:
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
-    easyrsa_dest: "/"
-    easyrsa_crc: "sha256:https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
+    easyrsa_dest: "/root/"
   tasks:
   - name: Update
     yum:
@@ -28,7 +27,6 @@
     ansible.builtin.get_url:
       url: "{{easyrsa}}"
       dest: "{{easyrsa_dest}}"
-      checksum: "{{easyrsa_crc}}"
       mode: '0644'
       owner: root
       group: root
