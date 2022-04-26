@@ -5,6 +5,7 @@
   vars:
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: "/root/"
+    archive_file: "EasyRSA-3.0.8.tgz"
   tasks:
  # - name: Update
  #   yum:
@@ -33,10 +34,11 @@
   
   - name: Uncompress EasyRSA archive
     ansible.builtin.unarchive:
-      src: "EasyRSA-3.0.8.tgz"
+      src: "{{item}}"
       dest: "{{easyrsa_dest}}"
       mode: '0744'
-  
+    with_items:
+      - "{{ archive_file }}"
   - debug:
        var: yum_openvpn.results
 
