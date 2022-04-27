@@ -35,9 +35,20 @@
       args:
         chdir: EasyRSA-3.0.8/
     - 
+      name: "Build CA"
+      ansible.builtin.expect:
+        command: "sh /root/EasyRSA-3.0.8/easyrsa build-ca nopass"
+        responses:
+          Question:
+            - "{{ resposne_1 }}"
+      args:
+          chdir: EasyRSA-3.0.8/
+      register: build_ca
+    - 
       debug: 
-        var: yum_openvpn.results
+        var: build_ca.results
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: /root/
+    resposne_1: "server"
