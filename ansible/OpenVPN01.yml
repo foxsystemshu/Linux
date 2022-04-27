@@ -36,6 +36,7 @@
       name: "Uncompress EasyRSA archive"
       with_items: 
         - "{{ archive_file }}"
+        
     - 
       copy: 
         dest: /root/EasyRSA-3.0.8/
@@ -108,13 +109,11 @@
        args:
         chdir: "{{ working_dir }}"
     -
-       name: "Generate strong Diffie-Hellman key"
-       command: "sh {{ working_dir }}easyrsa  gen-dh"
-       args:
-        chdir: "{{ working_dir }}"
-    -
-       name: "Generate HMAC signature"
-       command: "openvpn --genkey --secret ta.key"
+       name: "Generate strong Diffie-Hellman key and HMAC signature"
+       command: "{{ item }}" 
+       with_items:
+         - "sh {{ working_dir }}easyrsa  gen-dh"
+         - "openvpn --genkey --secret ta.key"
        args:
         chdir: "{{ working_dir }}"
     -
@@ -128,8 +127,8 @@
          - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/dh.pem', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}ta.key', dest: '/etc/openvpn/server'}     
-
+         - {src: '{{working_dir}}ta.key', dest: '/etc/openvpn/server'}      
+         - {src: /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz, dest: '/etc/openvpn/server'}
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
