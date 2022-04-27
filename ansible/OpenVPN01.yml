@@ -73,7 +73,7 @@
       name: "Create a server key"
       command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ ServerName }} nopass"
       args:
-          chdir: "{{working_dir}}"
+          chdir: EasyRSA-3.0.8/
     - 
       debug: 
         var: build_ca.results
