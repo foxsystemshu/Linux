@@ -47,7 +47,11 @@
         name:
           - setuptools
           - pexpect
-          
+    -
+      name: "Check CA cert if exists"
+      stat:
+        path: "/root/EasyRSA-3.0.8/pki/private/ca.key"
+      register: CA_cert     
     - 
       name: "Build CA"
       ansible.builtin.expect:
@@ -58,6 +62,7 @@
       args:
           chdir: EasyRSA-3.0.8/
       register: build_ca
+      when: not CA_cert.stat.exists
     - 
       debug: 
         var: build_ca.results
