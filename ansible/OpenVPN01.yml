@@ -1,0 +1,43 @@
+--- 
+- 
+  become: true
+  hosts: VPN
+  name: "OpenVPN Install and configuriation"
+  tasks: 
+    - 
+      ansible.builtin.get_url: 
+        dest: "{{easyrsa_dest}}"
+        group: root
+        mode: "0777"
+        owner: root
+        url: "{{easyrsa}}"
+      name: "Get EasyRSA files"
+    - 
+      ansible.builtin.unarchive: 
+        dest: "{{easyrsa_dest}}"
+        mode: "0744"
+        remote_src: true
+        src: "{{item}}"
+      name: "Uncompress EasyRSA archive"
+      with_items: 
+        - "{{ archive_file }}"
+    - 
+      copy: 
+        dest: /root/EasyRSA-3.0.8/
+        group: root
+        mode: "0644"
+        owner: root
+        src: ~/Linux/ansible/vars
+      name: "Copy vars to remote"
+    - 
+      name: "Run init-pki script"
+      script: 
+        free_form: "/root/EasyRSA-3.0.8/easyrsa init-pki"
+        remote_src: true
+    - 
+      debug: 
+        var: yum_openvpn.results
+  vars: 
+    archive_file: /root/EasyRSA-3.0.8.tgz
+    easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
+    easyrsa_dest: /root/
