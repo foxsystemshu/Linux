@@ -50,9 +50,10 @@
       mode: 0644
 
   - name: Run init-pki script
-    script: /root/EasyRSA-3.0.8/easyrsa init-pki
-    remote_src: yes
-  
+    script:
+      free_form: /root/EasyRSA-3.0.8/easyrsa init-pki
+      remote_src: yes
+
   - debug:
        var: yum_openvpn.results
 
