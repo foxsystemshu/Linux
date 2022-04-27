@@ -40,7 +40,7 @@
       command: "sh /root/EasyRSA-3.0.8/easyrsa init-pki"
       args:
         chdir: EasyRSA-3.0.8/
-      when: pki_dir.stat.exists
+      when: not pki_dir.stat.exists
     - 
       name: "install Pexpect"
       pip: 
