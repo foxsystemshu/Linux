@@ -45,8 +45,9 @@
       name: "Install requied python packages"
       pip:
         name:
-          - pexpect
           - setuptools
+          - pexpect
+          
     - 
       name: "Build CA"
       ansible.builtin.expect:
