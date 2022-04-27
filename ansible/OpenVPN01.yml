@@ -62,7 +62,7 @@
       ansible.builtin.expect:
         command: "sh /root/EasyRSA-3.0.8/easyrsa build-ca nopass"
         responses:
-         'Common Name \(eg: your user, host, or server name\) \[Easy-RSA CA\]:': 'rose'
+         'Common Name \(eg: your user, host, or server name\) \[Easy-RSA CA\]:': '{{ server_name }}'
         echo: true
       args:
           chdir: EasyRSA-3.0.8/
@@ -71,9 +71,11 @@
     
     -
       name: "Create a server key"
-      command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ ServerName }} nopass"
+      command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ server_name }} nopass"
+      responses:
+         'Common Name \(eg: your user, host, or server name\)': '{{ server_name }}'
       args:
-          chdir: EasyRSA-3.0.8/
+          chdir: "{{ working_dir }}"
     - 
       debug: 
         var: build_ca.results
@@ -81,5 +83,5 @@
     archive_file: /root/EasyRSA-3.0.8.tgz
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: /root/
-    ServerName: "rose"
+    server_name: "rose"
     working_dir: "~/EasyRSA-3.0.8/"
