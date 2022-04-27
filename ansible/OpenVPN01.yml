@@ -31,9 +31,8 @@
       name: "Copy vars to remote"
     - 
       name: "Run init-pki script"
-      script: 
-        free_form: "/root/EasyRSA-3.0.8/easyrsa init-pki"
-        remote_src: true
+      command: "sh /root/EasyRSA-3.0.8/easyrsa init-pki"
+
     - 
       debug: 
         var: yum_openvpn.results
