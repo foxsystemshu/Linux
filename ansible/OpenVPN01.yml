@@ -73,7 +73,7 @@
       name: "Create a server key"
       command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ server_name }} nopass"
       responses:
-         'Common Name \(eg: your user, host, or server name\)': '{{ server_name }}'
+         ? "Common Name \\(eg: your user, host, or server name\\) \\['{{ server_name }}'\\]:": '{{ server_name }}'
       args:
           chdir: "{{ working_dir }}"
     - 
