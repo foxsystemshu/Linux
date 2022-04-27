@@ -70,12 +70,12 @@
       when: not CA_cert.stat.exists
 
     - 
-      name: "Create a server key"
-      command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ server_name }} nopass"
-      responses:
+       name: "Create a server key"
+       command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ server_name }} nopass"
+       responses:
          'Common Name \(eg: your user, host, or server name\)': '{{ server_name }}'
-      args:
-          chdir: "{{ working_dir }}"
+       args:
+         chdir: "{{ working_dir }}"
     - 
       debug: 
         var: build_ca.results
