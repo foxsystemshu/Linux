@@ -103,11 +103,11 @@
          - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/reqs/{{server_name}}.req', dest: '/etc/openvpn/server'}
 
-    -
-       name: "Import server request"
-       command: "sh {{ working_dir }}easyrsa  import-req /etc/openvpn/server/{{ server_name }}.req {{ server_name }}"
-       args:
-        chdir: "{{ working_dir }}"
+    #-
+     #  name: "Import server request"
+      # command: "sh {{ working_dir }}easyrsa  import-req /etc/openvpn/server/{{ server_name }}.req {{ server_name }}"
+       #args:
+        #chdir: "{{ working_dir }}"
     -
        name: "Sign server request"
        ansible.builtin.expect:
