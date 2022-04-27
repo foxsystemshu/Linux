@@ -32,7 +32,8 @@
     - 
       name: "Run init-pki script"
       command: "sh /root/EasyRSA-3.0.8/easyrsa init-pki"
-
+      args:
+        chdir: EasyRSA-3.0.8/
     - 
       debug: 
         var: yum_openvpn.results
