@@ -84,7 +84,7 @@
         path: "{{ working_dir }}pki/private/{{server_name}}.key"
       register: server_cert 
     - 
-       name: "Create a server key"
+       name: "Create a server key and request"
        ansible.builtin.expect:
          command: "sh {{ working_dir }}easyrsa  gen-req {{ server_name }} nopass"
          responses:
@@ -94,7 +94,7 @@
          chdir: "{{ working_dir }}"
        when: not server_cert.stat.exists
     -
-       name: "Copy server key and requiest to OpenVPN config directory"
+       name: "Copy server key and request to OpenVPN config directory"
        copy: 
          src: "{{ item.src }}"
          dest: "{{ item.dest }}"
@@ -102,9 +102,22 @@
        loop:
          - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/reqs/{{server_name}}.req', dest: '/etc/openvpn/server'}
-    - 
-      debug: 
-        var: build_ca.results
+
+    -
+       name: "Import server request"
+       command: "sh {{ working_dir }}easyrsa  import-req /etc/openvpn/server/{{ server_name }}.req {{ server_name }}"
+       args:
+        chdir: "{{ working_dir }}"
+    -
+       name: "Sign server request"
+       ansible.builtin.expect:
+       command: "sh {{ working_dir }}easyrsa  sign-req server {{ server_name }}"
+       responses:
+         'Confirm request details:': 'yes'
+       echo: true
+       args:
+        chdir: "{{ working_dir }}"
+
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
