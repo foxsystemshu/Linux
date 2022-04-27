@@ -29,11 +29,18 @@
         owner: root
         src: ~/Linux/ansible/vars
       name: "Copy vars to remote"
+    -
+      name: "Check PKI dir if it exists"
+      stat:
+        path: "/root/EasyRSA-3.0.8/pki"
+      register: pki_dir
+
     - 
       name: "Run init-pki script"
       command: "sh /root/EasyRSA-3.0.8/easyrsa init-pki"
       args:
         chdir: EasyRSA-3.0.8/
+      when: pki_dir.stat.exists
     - 
       name: "install Pexpect"
       pip: 
