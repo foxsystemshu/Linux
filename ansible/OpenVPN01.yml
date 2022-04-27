@@ -93,16 +93,6 @@
        args:
          chdir: "{{ working_dir }}"
        when: not server_cert.stat.exists
-    -
-       name: "Copy server key and request to OpenVPN config directory"
-       copy: 
-         src: "{{ item.src }}"
-         dest: "{{ item.dest }}"
-         remote_src: true
-       loop:
-         - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}pki/reqs/{{server_name}}.req', dest: '/etc/openvpn/server'}
-
     #-
      #  name: "Import server request"
       # command: "sh {{ working_dir }}easyrsa  import-req /etc/openvpn/server/{{ server_name }}.req {{ server_name }}"
@@ -117,6 +107,28 @@
          echo: true
        args:
         chdir: "{{ working_dir }}"
+    -
+       name: "Generate strong Diffie-Hellman key"
+       command: "sh {{ working_dir }}easyrsa  gen-dh"
+       args:
+        chdir: "{{ working_dir }}"
+    -
+       name: "Generate HMAC signature"
+       command: "openvpn --genkey --secret ta.key"
+       args:
+        chdir: "{{ working_dir }}"
+    -
+       name: "Copy necessary files to OpenVPN config directory"
+       copy: 
+         src: "{{ item.src }}"
+         dest: "{{ item.dest }}"
+         remote_src: true
+       loop:
+         - {src: '{{working_dir}}pki/ca.crt', dest: '/etc/openvpn/server'}
+         - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
+         - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
+         - {src: '{{working_dir}}pki/dh.pem', dest: '/etc/openvpn/server'}
+         - {src: '{{working_dir}}ta.key', dest: '/etc/openvpn/server'}     
 
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
