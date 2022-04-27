@@ -91,4 +91,4 @@
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: /root/
     server_name: "rose"
-    working_dir: "~/EasyRSA-3.0.8/"
+    working_dir: "/root/EasyRSA-3.0.8/"
