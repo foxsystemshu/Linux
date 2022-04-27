@@ -42,9 +42,10 @@
         chdir: EasyRSA-3.0.8/
       when: not pki_dir.stat.exists
     - 
-      name: "install Pexpect"
+      name: "Install requied python packages"
       pip: 
-        name: pexpect
+        - pexpect
+        - setuptools
     - 
       name: "Build CA"
       ansible.builtin.expect:
