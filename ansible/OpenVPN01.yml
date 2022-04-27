@@ -100,8 +100,8 @@
          dest: "{{ item.dest }}"
          remote_src: true
        loop:
-         - {src: '{{working_dir}}pki/private/{{server_name}}.key', '/etc/openvpn/server'}
-         - {src: '{{working_dir}}pki/reqs/{{server_name}}.req', '/etc/openvpn/server'}
+         - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
+         - {src: '{{working_dir}}pki/reqs/{{server_name}}.req', dest: '/etc/openvpn/server'}
     - 
       debug: 
         var: build_ca.results
