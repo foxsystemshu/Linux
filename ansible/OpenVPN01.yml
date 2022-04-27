@@ -68,7 +68,7 @@
           chdir: EasyRSA-3.0.8/
       register: build_ca
       when: not CA_cert.stat.exists
-    
+      
     -
       name: "Create a server key"
       command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ server_name }} nopass"
