@@ -128,7 +128,7 @@
          - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/dh.pem', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}ta.key', dest: '/etc/openvpn/server'}      
-         - {src: /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz, dest: '/etc/openvpn/server'}
+         - {src: /usr/share/doc/openvpn-2.4.12/sample/sample-config-files/server.conf, dest: '/etc/openvpn/server'}
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
