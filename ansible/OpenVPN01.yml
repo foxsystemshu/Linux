@@ -95,10 +95,13 @@
        when: not server_cert.stat.exists
     -
        name: "Copy server key and requiest to OpenVPN config directory"
-       copy:
-         src: "{{working_dir}}pki/private/{{server_name}}.key"
-         dest: "/etc/openvpn/server"
-         remote_src: true 
+       copy: 
+         src: "{{ item.src }}"
+         dest: "{{ item.dest }}"
+         remote_src: true
+       loop:
+         - {src: '{{working_dir}}pki/private/{{server_name}}.key', '/etc/openvpn/server'}
+         - {src: '{{working_dir}}pki/reqs/{{server_name}}.req', '/etc/openvpn/server'}
     - 
       debug: 
         var: build_ca.results
