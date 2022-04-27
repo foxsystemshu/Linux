@@ -111,9 +111,9 @@
     -
        name: "Sign server request"
        ansible.builtin.expect:
-       command: "sh {{ working_dir }}easyrsa  sign-req server {{ server_name }}"
-       responses:
-         'Confirm request details:': 'yes'
+         command: "sh {{ working_dir }}easyrsa  sign-req server {{ server_name }}"
+         responses:
+           'Confirm request details:': 'yes'
        echo: true
        args:
         chdir: "{{ working_dir }}"
