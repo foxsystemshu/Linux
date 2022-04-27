@@ -53,7 +53,7 @@
       ansible.builtin.expect:
         command: "sh /root/EasyRSA-3.0.8/easyrsa build-ca nopass"
         responses:
-         'Common Name (eg: your user, host, or server name) [Easy-RSA CA]:': "{{ resposne_1 }}"
+         'Common Name (eg: your user, host, or server name) [Easy-RSA CA]': 'rose'
       args:
           chdir: EasyRSA-3.0.8/
       register: build_ca
