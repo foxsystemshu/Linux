@@ -5,6 +5,16 @@
   name: "OpenVPN Install and configuriation"
   tasks:
     -
+      name: EPEL install
+      yum:
+       name: epel-release
+       state: latest
+    - 
+      name: Install OpenVPN package
+      yum:
+       name: openvpn
+       state: latest
+    -
       name: "Install python pip package"
       yum:
         name: python-pip
@@ -83,6 +93,11 @@
        args:
          chdir: "{{ working_dir }}"
        when: not server_cert.stat.exists
+    -
+       name: "Copy server key and requiest to OpenVPN config directory"
+       copy:
+         src: "{{working_dir}}pki/private/{{server_name}}.key"
+         dest: "/etc/" 
     - 
       debug: 
         var: build_ca.results
