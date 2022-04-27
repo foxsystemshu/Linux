@@ -35,6 +35,10 @@
       args:
         chdir: EasyRSA-3.0.8/
     - 
+      name: "install Pexpect"
+      pip: 
+        name: pexpect
+    - 
       name: "Build CA"
       ansible.builtin.expect:
         command: "sh /root/EasyRSA-3.0.8/easyrsa build-ca nopass"
