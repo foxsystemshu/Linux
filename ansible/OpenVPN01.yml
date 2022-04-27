@@ -97,7 +97,8 @@
        name: "Copy server key and requiest to OpenVPN config directory"
        copy:
          src: "{{working_dir}}pki/private/{{server_name}}.key"
-         dest: "/etc/" 
+         dest: "/etc/openvpn/server"
+         remote_src: true 
     - 
       debug: 
         var: build_ca.results
