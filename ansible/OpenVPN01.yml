@@ -114,7 +114,7 @@
          command: "sh {{ working_dir }}easyrsa  sign-req server {{ server_name }}"
          responses:
            'Confirm request details:': 'yes'
-       echo: true
+         echo: true
        args:
         chdir: "{{ working_dir }}"
 
