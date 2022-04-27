@@ -43,9 +43,10 @@
       when: not pki_dir.stat.exists
     - 
       name: "Install requied python packages"
-      pip: 
-        - pexpect
-        - setuptools
+      pip:
+        name:
+          - pexpect
+          - setuptools
     - 
       name: "Build CA"
       ansible.builtin.expect:
