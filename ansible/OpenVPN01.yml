@@ -3,7 +3,12 @@
   become: true
   hosts: VPN
   name: "OpenVPN Install and configuriation"
-  tasks: 
+  tasks:
+    -
+      name: "Install python pip package"
+      yum:
+        name: python-pip
+        state: latest
     - 
       ansible.builtin.get_url: 
         dest: "{{easyrsa_dest}}"
