@@ -35,16 +35,16 @@
         src: ~/Linux/ansible/vars
       name: "Copy vars to remote"
     -
-      name: "Check PKI dir if it exists"
+      name: "Check if PKI dir exists"
       stat:
-        path: "/root/EasyRSA-3.0.8/pki"
+        path: "{{ working_dir }}/pki"
       register: pki_dir
 
     - 
       name: "Run init-pki script"
-      command: "sh /root/EasyRSA-3.0.8/easyrsa init-pki"
+      command: "sh {{ working_dir }}/easyrsa init-pki"
       args:
-        chdir: EasyRSA-3.0.8/
+        chdir: "{{ working_dir }}"
       when: not pki_dir.stat.exists
     - 
       name: "Install requied python packages"
@@ -53,26 +53,30 @@
           - setuptools
           - pexpect
     -
-      name: "Check CA cert if exists"
+      name: "Check if CA cert exists"
       stat:
-        path: "/root/EasyRSA-3.0.8/pki/private/ca.key"
+        path: "{{ working_dir }}/pki/private/ca.key"
       register: CA_cert     
     - 
       name: "Build CA"
       ansible.builtin.expect:
-        command: "sh /root/EasyRSA-3.0.8/easyrsa build-ca nopass"
+        command: "sh {{ working_dir }}/easyrsa build-ca nopass"
         responses:
          'Common Name \(eg: your user, host, or server name\) \[Easy-RSA CA\]:': '{{ server_name }}'
         echo: true
       args:
-          chdir: EasyRSA-3.0.8/
+          chdir: "{{ working_dir }}"
       register: build_ca
       when: not CA_cert.stat.exists
-
+    -
+      name: "Check if server key exists"
+      stat:
+        path: "{{ working_dir }}/pki/private/{{server_name}}.key"
+      register: CA_cert 
     - 
        name: "Create a server key"
        ansible.builtin.expect:
-         command: "sh /root/EasyRSA-3.0.8/easyrsa  gen-req {{ server_name }} nopass"
+         command: "sh {{ working_dir }}/easyrsa  gen-req {{ server_name }} nopass"
          responses:
            'Common Name \(eg: your user, host, or server name\)': '{{ server_name }}'
          echo: true
