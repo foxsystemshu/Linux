@@ -124,7 +124,7 @@
          remote_src: true
          owner: root
          group: openvpn
-         mode: '0650'
+         mode: '0640'
        loop:
          - {src: '{{working_dir}}pki/ca.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
@@ -144,6 +144,17 @@
          - { regexp: '^(.*)key server.key(.*)$', line: 'key {{server_name}}.key'}
          - { regexp: '^(.*);user nobody(.*)$', line: 'user nobody'}
          - { regexp: '^(.*);group nobody(.*)$', line: 'group nobody'}
+    -
+       name: "Enable and start OpenVPN service"
+       systemd:
+         name: openvpn-server@{{server_name}}
+         state: started
+         enabled: yes
+       register: service
+    -
+       debug:
+         msg: "OpenVPN service status: {{service.status.ActiveState}}"
+
 
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
