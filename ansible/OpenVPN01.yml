@@ -169,6 +169,7 @@
          enabled: yes
        register: service
        until: service.status.ActiveState == "active"
+       retries: 2
        delay: 3
     - 
        name: "Create client-configs directory structure for the future use"
@@ -184,7 +185,7 @@
     -
        debug:
          msg: "OpenVPN service status: {{service.status.ActiveState}}" 
-        # On the first run will lie about the service STATE, run again to correct output
+        # On the first run will lie about the service STATE, need 
 
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
