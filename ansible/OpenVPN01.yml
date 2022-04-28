@@ -184,7 +184,7 @@
         - {dir: "files"}
     -
        debug:
-         msg: "OpenVPN service status: {{service.status.ActiveState}}" 
+         msg: "OpenVPN service status: {{service.status.ActiveState}} \n ( run on {{server_name}}: systemctl status openvpn-server@{{server_name}})" 
         
 
   vars: 
