@@ -131,11 +131,16 @@
          - {src: /usr/share/doc/openvpn-2.4.12/sample/sample-config-files/server.conf, dest: '/etc/openvpn/server'}
 
     - 
-       name: "Set crt file in config file"
+       name: "Set config file"
        lineinfile:
          path: /etc/openvpn/server/server.conf
-         regexp: '^(.*)cert server.crt(.*)$'
-         line: 'cert {{server_name}}.crt'
+         regexp: "{{item.regexp}}" # '^(.*)cert server.crt(.*)$'
+         line: "{{item.line}}" #'cert {{server_name}}.crt'
+       loop:
+         - { regexp: '^(.*)cert server.crt(.*)$', line: 'cert {{server_name}}.crt'}
+         - { regexp: '^(.*)key server.key(.*)$', line: 'key {{server_name}}.key'}
+         - { regexp: '^(.*);user nobody(.*)$', line: 'user nobody'}
+         - { regexp: '^(.*);group nobody(.*)$', line: 'group nobody'}
 
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
