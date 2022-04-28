@@ -6,7 +6,7 @@
 # After that, the script download EasyRSA archive and uncompress it to root folder with strict POSIX permissions.
 # Then the script will copy prewritten VARS file from local to remote site -> On the remote site will execute EasyRSA init-pki script for build a PKI from VARS file
 # This script will also build a CA to each remote site (Future plan: CA server build will be a different ansible script)
-# CA build is finished, we create a server key and request, then sign it and generate strong Diffie-Hellman key and HMAC signature.
+# CA build is finished, we create a server key and request, then sign it and generate strong Diffie-Hellman key and HMAC signature (DH may take a long time!!).
 # After all the script will copy necessary files to OpenVPN config directory, and set config file parameters, then start/enable OpenVPN service.
 # For the future use the script will create client-config folder structure also with strict permissions
 
@@ -117,7 +117,7 @@
          echo: true
        args:
         chdir: "{{ working_dir }}"
-
+       when: not server_cert.stat.exists
     -
       name: "Check if Diffie-Hellman key exists"
       stat:
@@ -182,8 +182,8 @@
         - {dir: "files"}
     -
        debug:
-         msg: "OpenVPN service status: {{service.status.ActiveState}}"
-
+         msg: "OpenVPN service status: {{service.status.ActiveState}}" 
+        # On the first run will lie about the service STATE, run again to correct output
 
   vars: 
     archive_file: /root/EasyRSA-3.0.8.tgz
