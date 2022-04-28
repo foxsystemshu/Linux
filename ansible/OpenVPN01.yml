@@ -165,11 +165,14 @@
     - 
        name: "Create client-configs directory structure for the future"
        file:
-         path: /root/client-configs/keys
+         path: /root/client-configs/{{item.dir}}
          state: directory
          owner: root
          group: root
          mode: '0700'
+       loop:
+        - {dir: "keys"}
+        - {dir: "files"}
     -
        debug:
          msg: "OpenVPN service status: {{service.status.ActiveState}}"
