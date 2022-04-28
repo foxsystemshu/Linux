@@ -168,7 +168,9 @@
          state: started
          enabled: yes
        register: service
-
+       until: service.status.ActiveState == "active"
+       retries: 2
+       delay: 3
     - 
        name: "Create client-configs directory structure for the future use"
        file:
