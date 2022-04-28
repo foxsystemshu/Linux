@@ -168,7 +168,7 @@
          state: started
          enabled: yes
        register: service
-       until: service.status.ActiveState == "active" # NEED for dont lie about the service STATE on the first run
+       until: service.status.ActiveState == "active" # NEED for do not lie about the service STATE on the first run
        retries: 5
        delay: 3
     - 
