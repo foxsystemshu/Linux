@@ -124,7 +124,7 @@
          remote_src: true
          owner: root
          group: openvpn
-         mode: '0730'
+         mode: '0650'
        loop:
          - {src: '{{working_dir}}pki/ca.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
