@@ -153,7 +153,7 @@
        register: service
     -
        debug:
-         msg: "OpenVPN service status: {{service.status.ActiveState}}"
+         msg: "OpenVPN service status: {{service.status}}"
 
 
   vars: 
