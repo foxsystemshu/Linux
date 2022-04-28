@@ -133,7 +133,7 @@
     - 
        name: "Set config file"
        lineinfile:
-         path: /etc/openvpn/server/server.conf
+         path: /etc/openvpn/server/{{server_name}}.conf
          regexp: "{{item.regexp}}" # '^(.*)cert server.crt(.*)$'
          line: "{{item.line}}" #'cert {{server_name}}.crt'
        loop:
