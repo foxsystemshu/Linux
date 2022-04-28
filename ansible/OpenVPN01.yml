@@ -112,7 +112,7 @@
        name: "Generate strong Diffie-Hellman key and HMAC signature"
        command: "{{ item }}" 
        with_items:
-         - "sh {{ working_dir }}easyrsa  gen-dh"
+         - "openssl dhparam -out dh2048.pem 2048"
          - "openvpn --genkey --secret ta.key"
        args:
         chdir: "{{ working_dir }}"
@@ -126,7 +126,7 @@
          - {src: '{{working_dir}}pki/ca.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}pki/dh.pem', dest: '/etc/openvpn/server'}
+         - {src: '{{working_dir}}pki/dh2048.pem', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}ta.key', dest: '/etc/openvpn/server'}      
          - {src: /usr/share/doc/openvpn-2.4.12/sample/sample-config-files/server.conf, dest: '/etc/openvpn/server'}
 
