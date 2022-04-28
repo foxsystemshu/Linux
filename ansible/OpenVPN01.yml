@@ -122,6 +122,9 @@
          src: "{{ item.src }}"
          dest: "{{ item.dest }}"
          remote_src: true
+         owner: root
+         group: openvpn
+         mode: '0730'
        loop:
          - {src: '{{working_dir}}pki/ca.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
