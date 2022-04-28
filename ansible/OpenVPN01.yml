@@ -163,7 +163,6 @@
     -
        debug:
          msg: "OpenVPN service status: {{service.status.ActiveState}}"
-         delay: 5
 
 
   vars: 
