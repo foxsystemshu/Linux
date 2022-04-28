@@ -1,8 +1,20 @@
+# OpenVPN Install and configuration YAML file for ANSIBLE
+# Created by:  Németh Szabolcs (EGOJHI)
+
+# INFO: 20 Tasks (Updated: 2022.04.28)
+# The script firstly install all the prerequisites which are required to install, configure OpenVPN service, such as EPEL,OpenVPN,python-pip.
+# After that, the script download EasyRSA archive and uncompress it to root folder with strict POSIX permissions.
+# Then the script will copy prewritten VARS file from local to remote site -> On the remote site will execute EasyRSA init-pki script for build a PKI from VARS file
+# This script will also build a CA to each remote site (Future plan: CA server build will be a different ansible script)
+# CA build is finished, we create a server key and request, then sign it and generate strong Diffie-Hellman key and HMAC signature.
+# After all the script will copy necessary files to OpenVPN config directory, and set config file parameters, then start/enable OpenVPN service.
+# For the future use the script will create client-config folder structure also with strict permissions
+
 --- 
 - 
   become: true
   hosts: VPN
-  name: "OpenVPN Install and configuriation"
+  name: "OpenVPN Install and configuration"
   tasks:
     -
       name: EPEL install
@@ -158,7 +170,7 @@
        register: service
 
     - 
-       name: "Create client-configs directory structure for the future"
+       name: "Create client-configs directory structure for the future use"
        file:
          path: /root/client-configs/{{item.dir}}
          state: directory
