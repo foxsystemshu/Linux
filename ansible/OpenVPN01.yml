@@ -23,14 +23,16 @@
       ansible.builtin.get_url: 
         dest: "{{easyrsa_dest}}"
         group: root
-        mode: "0777"
+        mode: "0600"
         owner: root
         url: "{{easyrsa}}"
       name: "Get EasyRSA files"
     - 
       ansible.builtin.unarchive: 
         dest: "{{easyrsa_dest}}"
-        mode: "0744"
+        mode: "0600"
+        owner: root
+        group: root
         remote_src: true
         src: "{{item}}"
       name: "Uncompress EasyRSA archive"
@@ -41,7 +43,7 @@
       copy: 
         dest: /root/EasyRSA-3.0.8/
         group: root
-        mode: "0644"
+        mode: "0600"
         owner: root
         src: ~/Linux/ansible/vars
       name: "Copy vars to remote"
@@ -108,6 +110,12 @@
          echo: true
        args:
         chdir: "{{ working_dir }}"
+
+    -
+      name: "Check if Diffie-Hellman key exists"
+      stat:
+        path: "{{ working_dir }}dh2048.pem"
+      register: dh_key 
     -
        name: "Generate strong Diffie-Hellman key and HMAC signature"
        command: "{{ item }}" 
@@ -116,6 +124,8 @@
          - "openvpn --genkey --secret ta.key"
        args:
         chdir: "{{ working_dir }}"
+       when: not dh_key.stat.exists
+
     -
        name: "Copy necessary files to OpenVPN config directory"
        copy: 
