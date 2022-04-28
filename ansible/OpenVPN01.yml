@@ -124,7 +124,7 @@
         path: "{{ working_dir }}dh2048.pem"
       register: dh_key 
     -
-       name: "Generate strong Diffie-Hellman key and HMAC signature"
+       name: "Generate strong Diffie-Hellman key and HMAC signature (may take a long time!!)"
        command: "{{ item }}" 
        with_items:
          - "openssl dhparam -out dh2048.pem 2048"
@@ -169,7 +169,6 @@
          enabled: yes
        register: service
        until: service.status.ActiveState == "active"
-       retries: 2
        delay: 3
     - 
        name: "Create client-configs directory structure for the future use"
