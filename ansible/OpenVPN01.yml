@@ -126,7 +126,7 @@
          - {src: '{{working_dir}}pki/ca.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}pki/dh2048.pem', dest: '/etc/openvpn/server'}
+         - {src: '{{working_dir}}dh2048.pem', dest: '/etc/openvpn/server'}
          - {src: '{{working_dir}}ta.key', dest: '/etc/openvpn/server'}      
          - {src: /usr/share/doc/openvpn-2.4.12/sample/sample-config-files/server.conf, dest: '/etc/openvpn/server'}
 
