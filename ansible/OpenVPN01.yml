@@ -15,6 +15,7 @@
   become: true
   hosts: VPN
   name: "OpenVPN Install and configuration"
+  gather_facts: true
   tasks:
     -
       name: EPEL install
@@ -193,5 +194,5 @@
     archive_file: /root/EasyRSA-3.0.8.tgz
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
     easyrsa_dest: /root/
-    server_name: "rose"
+    server_name: ansible_hostname 
     working_dir: "/root/EasyRSA-3.0.8/"
