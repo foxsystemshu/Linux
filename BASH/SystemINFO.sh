@@ -26,14 +26,16 @@ root_xml_end="</system>"
 NET_xml=""
 HW_xml=""
 DISTRO=$(hostnamectl | grep "Operating System" | cut -d":" -f2)
+
 #Install prerequisite package for easy use
+ echo "Install prerequisite package for easier use..."
  if [[ $DISTRO == *"CentOS"* ]]
     then
-        yum install net-tools -y >> /tmp/prerequisites.log
-        yum install libxml2-utils -y >> /tmp/prerequisites.log
+        yum install net-tools -y 2>/dev/null >> /tmp/prerequisites.log
+        yum install libxml2-utils -y 2>/dev/null >> /tmp/prerequisites.log
     else
-        apt-get install libxml2-utils >> /tmp/prerequisites.log
-        apt-get install -y net-tools >> /tmp/prerequisites.log
+        apt-get install libxml2-utils 2>/dev/null >> /tmp/prerequisites.log
+        apt-get install -y net-tools 2>/dev/null >> /tmp/prerequisites.log
     fi
 
 function get_CPU_info {
