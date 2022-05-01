@@ -19,7 +19,8 @@
 
 # Tested linux systems: 
 # - CentOS 7 (Kernel: 3.10.0-1160.62.1.el7.x86_64)
-# - 
+# - AlmaLinux 8.5 (Kernel: 4.18.0-348.23.1.el8_5.x86_64 )
+
 
 root_xml_start="<system>"
 root_xml_end="</system>"
@@ -123,10 +124,10 @@ function get_NET_info {
    echo "Gathering Network Informations"
    echo "-----------------------------"
    echo -e "Phase 1. - Default gateway pinging... \n"
-   ICMP_testing "192.168.1.1"
+   ICMP_testing "192.168.1.1" #manual setting required
     
    echo -e "Phase 2. - Internet testing... \n"
-   ICMP_testing "google.com"
+   ICMP_testing "google.com" #manual setting required
    
    echo -e "Phase 3. - Get routing table information... \n"
 
