@@ -1,21 +1,21 @@
 #!/bin/bash
 
 # Created by: Nemeth Szabolcs (EGOJHI)
-# Date: 2022.04.9
+# Date: 2022.05.01
 # System scanning script..
 # It's gather information about the current system, including hardware, installed packages, and users
 
 # Function name: get_hw_info
 # Args: none
-# HW info: CPU, Arch, MEM
+# HW info: CPU, Architecture, Memory
 
 # Function name: get_packages_info
 # Args: none
-# Packages info: Name, Version
+# Packages info: Name, Version, Architecture
 
 # Function name: get_users_info
 # Args: none
-# Packages info: Name, Home dir, Last logon date
+# Packages info: Name, Home dir
 
 
 
@@ -195,8 +195,7 @@ function get_users_info {
     do
         user="$(echo $user_list | cut -f${i} -d" ")"
         HOME_DIR=$(eval echo ~$user )
-        #$LASTLOGON=$(last $user) Wsl last logon is empty, need a proper test linux. :) 
-        users+='<User name="'${user}'" HomeDirectory="'${HOME_DIR}'" LastLogonDate=""/>'
+        users+='<User name="'${user}'" HomeDirectory="'${HOME_DIR}'"/>'
 
     done 
 
