@@ -17,13 +17,24 @@
 # Args: none
 # Packages info: Name, Home dir
 
-
+# Tested linux systems: 
+# - CentOS 7 (Kernel: 3.10.0-1160.62.1.el7.x86_64)
+# - 
 
 root_xml_start="<system>"
 root_xml_end="</system>"
 NET_xml=""
 HW_xml=""
 DISTRO=$(hostnamectl | grep "Operating System" | cut -d":" -f2)
+#Install prerequisite package for easy use
+ if [[ $DISTRO == *"CentOS"* ]]
+    then
+        yum install net-tools -y >> /tmp/prerequisites.log
+        yum install libxml2-utils -y >> /tmp/prerequisites.log
+    else
+        apt-get install libxml2-utils >> /tmp/prerequisites.log
+        apt-get install -y net-tools >> /tmp/prerequisites.log
+    fi
 
 function get_CPU_info {
 
@@ -116,11 +127,6 @@ function get_NET_info {
    ICMP_testing "google.com"
    
    echo -e "Phase 3. - Get routing table information... \n"
-    if [[ $DISTRO == *"CentOS"* ]]
-    then
-        #Install prerequisite package for get routing tables info
-        yum install net-tools -y
-    fi
 
    ROUTE=$(get_Routing_table)
     
