@@ -29,7 +29,7 @@ DISTRO=$(hostnamectl | grep "Operating System" | cut -d":" -f2)
 
 #Install prerequisite package for easy use
  echo "Install prerequisite package for easier use..."
- if [[ $DISTRO == *"CentOS"* ]]
+ if [[ $DISTRO == *"CentOS"* ]] || [[ $DISTRO == *"AlmaLinux"* ]]
     then
         yum install net-tools -y 2>/dev/null >> /tmp/prerequisites.log
         yum install libxml2-utils -y 2>/dev/null >> /tmp/prerequisites.log
@@ -158,7 +158,7 @@ function get_packages_info {
      echo "Gathering Installed packages"
      echo "-----------------------------"
 
-    if [[ $DISTRO == *"CentOS"* ]]
+    if [[ $DISTRO == *"CentOS"* ]] || [[ $DISTRO == *"AlmaLinux"* ]]
     then
         rpm -qai 2>/dev/null > /tmp/package_list.txt
         lines=$(cat /tmp/package_list.txt | grep -E "^Name[^s]" | cut -d":" -f2 | wc -l)
