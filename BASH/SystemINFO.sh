@@ -16,6 +16,9 @@
 # Function name: get_users_info
 # Args: none
 # Packages info: Name, Home dir, Last logon date
+
+
+
 root_xml_start="<system>"
 root_xml_end="</system>"
 NET_xml=""
@@ -72,23 +75,21 @@ function get_Routing_table {
     table_xml=''
     table_start_xml="<RouteTable>"
     table_end_xml="</RouteTable>"
-    
     row_count=$(route | wc -l)
-    for (( i=3; i<=$row_count; i++ ))
-    do
-        route=$(route | sed "${i}q;d")
-        dest=$(echo $route | cut -f1 -d" ")
-        gateway=$(echo $route | cut -f2 -d" ")
-        Genmask=$(echo $route | cut -f3 -d" ")
-        Flag=$(echo $route | cut -f4 -d" ")
-        Metric=$(echo $route | cut -f5 -d" ")
-        Ref=$(echo $route | cut -f6 -d" ")
-        Use=$(echo $route | cut -f7 -d" ")
-        Interface=$(echo $route | cut -f8 -d" ")
+        for (( i=3; i<=$row_count; i++ ))
+        do
+            route=$(route | sed "${i}q;d")
+            dest=$(echo $route | cut -f1 -d" ")
+            gateway=$(echo $route | cut -f2 -d" ")
+            Genmask=$(echo $route | cut -f3 -d" ")
+            Flag=$(echo $route | cut -f4 -d" ")
+            Metric=$(echo $route | cut -f5 -d" ")
+            Ref=$(echo $route | cut -f6 -d" ")
+            Use=$(echo $route | cut -f7 -d" ")
+            Interface=$(echo $route | cut -f8 -d" ")
 
-          table_xml+='<route destination="'${dest}'" gateway="'${gateway}'" genmask="'${Genmask}'" flag="'${Flag}'" metric="'${Metric}'" ref="'${Ref}'" use="'${Use}'" interface="'${Interface}'"/>'      
-    done
-
+            table_xml+='<route destination="'${dest}'" gateway="'${gateway}'" genmask="'${Genmask}'" flag="'${Flag}'" metric="'${Metric}'" ref="'${Ref}'" use="'${Use}'" interface="'${Interface}'"/>'      
+        done
     echo $table_start_xml $table_xml $table_end_xml
 }
 
@@ -115,6 +116,12 @@ function get_NET_info {
    ICMP_testing "google.com"
    
    echo -e "Phase 3. - Get routing table information... \n"
+    if [[ $DISTRO == *"CentOS"* ]]
+    then
+        #Install prerequisite package for get routing tables info
+        yum install net-tools -y
+    fi
+
    ROUTE=$(get_Routing_table)
     
    NET_xml="$netxml_start $net_IP_MASK_xml $ROUTE $netxml_end"
