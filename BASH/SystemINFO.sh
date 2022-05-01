@@ -20,6 +20,8 @@ root_xml_start="<system>"
 root_xml_end="</system>"
 NET_xml=""
 HW_xml=""
+DISTRO=$(hostnamectl | grep "Operating System" | cut -d":" -f2)
+
 function get_CPU_info {
 
     #outputs from /proc/cpuinfo --> "vendor_id : VENDOR"
@@ -37,18 +39,6 @@ function get_CPU_info {
     CPU_OP_MODE=$(lscpu | grep 'CPU op-mode(s):' | cut -f2 -d":" | sed 's/^ *//g')
     CPU_NUM=$(lscpu | grep '^CPU(s):' | cut -f2 -d":" | sed 's/^ *//g')
     SOCKETS_NUM=$(lscpu | grep 'Socket(s):' | cut -f2 -d":"| sed 's/^ *//g')
-
-    # Split raw outputs to single string e.g: "vendor_id : VENDOR" --> "VENDOR"
-    #Vendor_ID=${Vendor_ID_raw##*:}
-    #Model_name=${Model_name_raw#*:}
-    #CPU_MHz=${CPU_MHz_raw#*:}
-    #CAHCE_SIZE=${CAHCE_SIZE_raw#*:}
-    #CPU_CORE_NUM=${CPU_CORE_NUM_raw#*:}
-    #CPUID_LEVEL=${CPUID_LEVEL_raw#*:}
-    #ARCH=${ARCH_raw#*:}
-    #CPU_OP_MODE=${CPU_OP_MODE_raw#*:}
-    #CPU_NUM=${CPU_NUM_raw#*:}
-    #SOCKETS_NUM=${SOCKETS_NUM_raw#*:}
 
     cpu_xml="<CPUInfo><VendorID>${Vendor_ID}</VendorID><ModelName>${Model_name}</ModelName><MHz>${CPU_MHz}</MHz><CPUNumber>${CPU_NUM}</CPUNumber><CoreNumber>${CPU_CORE_NUM}</CoreNumber><SocketNumber>${SOCKETS_NUM}</SocketNumber><CPUIDLevel>${CPUID_LEVEL}</CPUIDLevel><Architecture>${ARCH}</Architecture><OPMode>${CPU_OP_MODE}</OPMode></CPUInfo>"
 
@@ -113,7 +103,6 @@ function get_NET_info {
        line="$( ifconfig | grep -e inet[^6] | sed "${i}q;d")"
        IP=$( echo $line | cut -f2 -d" ")
        MASK=$( echo $line | cut -f4 -d" " )
-       #net_IP_MASK+="${IP} (${MASK})\n"
        net_IP_MASK_xml+='<ip address="'${IP}'" mask="'${MASK}'"/>'
     done
     
@@ -153,21 +142,35 @@ function get_packages_info {
     # we need different cases for different distros
      echo "Gathering Installed packages"
      echo "-----------------------------"
-    apt list --installed 2>/dev/null > /tmp/package_list.txt
-    lines=$(cat /tmp/package_list.txt | wc -l)
-    packages=""
 
-    for (( i=2; i<=$lines; i++ ))
-    do
-        line="$( cat /tmp/package_list.txt | sed "${i}q;d" )"
-        
-        pname=$(echo $line | cut -f1 -d"/")
-        version=$(echo $line | cut -f2 -d" ")
-        arch=$(echo $line | cut -f3 -d" ")
+    if [[ $DISTRO == *"CentOS"* ]]
+    then
+        rpm -qai 2>/dev/null > /tmp/package_list.txt
+        lines=$(cat /tmp/package_list.txt | grep -E "^Name[^s]" | cut -d":" -f2 | wc -l)
+        packages=""
+        for (( i=1; i<=$lines; i++ ))
+        do
+            pname="$(cat /tmp/package_list.txt | grep -E "^Name[^s]" | cut -d":" -f2 | sed "${i}q;d" | sed 's/^ *//g')"
+            version="$(cat /tmp/package_list.txt | grep -E "^Version[^*:]" | cut -d":" -f2 | sed "${i}q;d" | sed 's/^ *//g' )"
+            arch="$(cat /tmp/package_list.txt | grep  "^Architecture[^*]" | cut -d":" -f2 | sed "${i}q;d" | sed 's/^ *//g')"
+            packages+='<package name="'${pname}'" version="'${version}'" arch="'${arch}'"/>'
+        done
+    else
+        apt list --installed 2>/dev/null > /tmp/package_list.txt
+        lines=$(cat /tmp/package_list.txt | wc -l)
+        packages=""
 
-        packages+='<package name="'${pname}'" version="'${version}'" arch="'${arch}'"/>'
-    done
+        for (( i=2; i<=$lines; i++ ))
+        do
+            line="$( cat /tmp/package_list.txt | sed "${i}q;d" )"
+            
+            pname=$(echo $line | cut -f1 -d"/")
+            version=$(echo $line | cut -f2 -d" ")
+            arch=$(echo $line | cut -f3 -d" ")
 
+            packages+='<package name="'${pname}'" version="'${version}'" arch="'${arch}'"/>'
+        done
+    fi
     packages_xml="$packages_xml_start $packages $packages_xml_end"
 }
 
