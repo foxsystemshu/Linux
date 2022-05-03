@@ -8,9 +8,9 @@ BEGIN {
     Info_count=0
 }
 
-FILENAME ~/dmesg/ && /Warning/ {warning_count++}
-FILENAME ~/dmesg/ && /Failed/ {failed_count++}
-FILENAME ~/dmesg/ && !/Failed/ && !/Warning/ {Info_count++}
+FILENAME !~/yum.log/ && /Warning/ {warning_count++}
+FILENAME !~/yum.log/ && /Failed/ {failed_count++}
+FILENAME !~/yum.log/ && !/Failed/ && !/Warning/ {Info_count++}
 
 FILENAME ~/yum.log/ && /transmission/ || /torrent/ {
     print "It looks like we found torrent application: "  $4
@@ -18,12 +18,12 @@ FILENAME ~/yum.log/ && /transmission/ || /torrent/ {
 }
 
 END{
-    if(FILENAME ~/dmesg/){
+    if(FILENAME ~/yum.log/){
+        print "\n\nAltogether: " torrent_count " packages"
+    } else {
         print "Warning: " warning_count " event"
         print "Failed: " failed_count " event"
         print "Info: " Info_count " event"
-    } else if(FILENAME ~/yum.log/){
-        print "\n\nAltogether: " torrent_count " packages"
     }
     
 }
