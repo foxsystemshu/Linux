@@ -8,8 +8,10 @@ BEGIN {
 
 /Warning/ {warning_count++}
 /Failed/ {failed_count++}
-/transmission/ || /ktorrent/ {
+
+FILENAME ~/yum.log/ && /transmission/ || /ktorrent/ {
     isTorrentInstalled=1
+    print "It looks like we found torrent application(s): "
     print $4
 }
 
