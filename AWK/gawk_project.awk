@@ -23,7 +23,7 @@ END{
         print "Failed: " failed_count " event"
         print "Info: " Info_count " event"
     } else if(FILENAME ~/yum.log/){
-        print "\n\n Altogether: " torrent_count
+        print "\n\nAltogether: " torrent_count " packages"
     }
     
 }
