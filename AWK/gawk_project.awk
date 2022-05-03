@@ -12,7 +12,7 @@ FILENAME !~/yum.log/ && /Warning/ {warning_count++}
 FILENAME !~/yum.log/ && /Failed/ {failed_count++}
 FILENAME !~/yum.log/ && !/Failed/ && !/Warning/ {Info_count++}
 
-FILENAME ~/yum.log/ && /transmission/ || /torrent/ {
+FILENAME ~/yum.log/ && (/transmission/ || /torrent/) {
     print "It looks like we found torrent application: "  $4
     torrent_count++
 }
