@@ -8,12 +8,13 @@ BEGIN {
 
 FILENAME ~/dmesg/ && /Warning/ {warning_count++}
 FILENAME ~/dmesg/ && /Failed/ {failed_count++}
+{
+  print "Warning: " warning_count " event"
+  print "Failed: " failed_count " event"
+}
 
 FILENAME ~/yum.log/ && /transmission/ || /ktorrent/ {
     print "It looks like we found torrent application: "
     print $4
 }
-FILENAME ~/yum.log/ && END{
-    print "Warning: " warning_count " event"
-    print "Failed: " failed_count " event"
-}
+
