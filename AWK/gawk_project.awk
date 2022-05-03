@@ -2,6 +2,6 @@
 BEGIN {print "LOG report"}
 
 {
-    text = $1 'home' $6
+    text = $1 "home" $6
     print text
 }
