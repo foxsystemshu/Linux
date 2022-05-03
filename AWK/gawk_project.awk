@@ -9,12 +9,11 @@ BEGIN {
 /Warning/ {warning_count++}
 /Failed/ {failed_count++}
 /transmission/ || /ktorrent/ {
-    torrent_count++
-    exit
+    isTorrentInstalled=1
+    print $1
 }
 
 END {
     print "Warning: " warning_count " event"
     print "Failed: " failed_count " event"
-    print "Torrent program: " torrent_count "counted: " torrents
 }
