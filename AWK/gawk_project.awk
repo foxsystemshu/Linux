@@ -8,7 +8,7 @@ BEGIN {
 
 /Warning/ {warning_count++}
 /Failed/ {failed_count++}
-/transmission || ktorrent/ {
+/transmission && ktorrent/ {
     torrent_count++
     torrents+=$1
 }
