@@ -6,8 +6,8 @@ BEGIN {
     torrent_count=0
 }
 
-/Warning/ {warning_count++}
-/Failed/ {failed_count++}
+FILENAME ~/dmesg/ && /Warning/ {warning_count++}
+FILENAME ~/dmesg/ && /Failed/ {failed_count++}
 
 FILENAME ~/yum.log/ && /transmission/ || /ktorrent/ {
     isTorrentInstalled=1
