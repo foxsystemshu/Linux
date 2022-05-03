@@ -10,7 +10,7 @@ BEGIN {
 /Failed/ {failed_count++}
 /transmission/ || /ktorrent/ {
     isTorrentInstalled=1
-    print $3
+    print $4
 }
 
 END {
