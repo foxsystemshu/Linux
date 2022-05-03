@@ -12,7 +12,7 @@ FILENAME ~/dmesg/ && /Warning/ {warning_count++}
 FILENAME ~/dmesg/ && /Failed/ {failed_count++}
 FILENAME ~/dmesg/ && !/Failed/ && !/Warning/ {Info_count++}
 
-FILENAME ~/yum.log/ && /transmission/ || /ktorrent/ {
+FILENAME ~/yum.log/ && /transmission/ || /torrent/ {
     print "It looks like we found torrent application: "  $4
     torrent_count++
 }
@@ -23,7 +23,7 @@ END{
         print "Failed: " failed_count " event"
         print "Info: " Info_count " event"
     } else if(FILENAME ~/yum.log/){
-        print"\n\n Altogether: " torrent_count
+        print "\n\n Altogether: " torrent_count
     }
     
 }
