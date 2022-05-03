@@ -11,11 +11,11 @@ FILENAME ~/dmesg/ && /Failed/ {failed_count++}
 
 FILENAME ~/yum.log/ && /transmission/ || /ktorrent/ {
     isTorrentInstalled=1
-    print "It looks like we found torrent application(s): "
+    print "It looks like we found torrent application: "
     print $4
 }
 
-END {
+FILENAME ~/dmesg/ {
     print "Warning: " warning_count " event"
     print "Failed: " failed_count " event"
 }
