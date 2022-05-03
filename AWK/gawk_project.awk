@@ -10,7 +10,7 @@ BEGIN {
 /Failed/ {failed_count++}
 /transmission/ || /ktorrent/ {
     torrent_count++
-    torrents+=$1
+    exit
 }
 
 END {
