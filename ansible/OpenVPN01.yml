@@ -1,7 +1,7 @@
 # OpenVPN Install and configuration YAML file for ANSIBLE
 # Created by:  Németh Szabolcs (EGOJHI)
 
-# INFO: 20 Tasks (Updated: 2022.04.28)
+# INFO: 20 Tasks (Updated: 2022.05.04)
 # The script firstly install all the prerequisites which are required to install, configure OpenVPN service, such as EPEL,OpenVPN,python-pip.
 # After that, the script download EasyRSA archive and uncompress it to root folder with strict POSIX permissions.
 # Then the script will copy prewritten VARS file from local to remote site -> On the remote site will execute EasyRSA init-pki script for build a PKI from VARS file
@@ -37,31 +37,32 @@
         state: latest
     - 
       ansible.builtin.get_url: 
-        dest: "{{easyrsa_dest}}"
+        dest: "{{ easyrsa_dest }}"
         group: root
         mode: "0600"
         owner: root
-        url: "{{easyrsa}}"
+        url: "{{ easyrsa }}"
       name: "Get EasyRSA files"
     - 
       ansible.builtin.unarchive: 
-        dest: "{{easyrsa_dest}}"
+        dest: "{{ easyrsa_dest }}"
         mode: "0600"
         owner: root
         group: root
         remote_src: true
-        src: "{{item}}"
+        src: "{{ item }}"
       name: "Uncompress EasyRSA archive"
       with_items: 
         - "{{ archive_file }}"
         
     - 
       copy: 
-        dest: /root/EasyRSA-3.0.8/
+        dest: "{{ working_dir }}"
         group: root
         mode: "0600"
         owner: root
-        src: ~/Linux/ansible/vars
+        src: "{{ vars_location }}"
+
       name: "Copy vars to remote"
     -
       name: "Check if PKI dir exists"
@@ -147,19 +148,19 @@
          group: openvpn
          mode: '0640'
        loop:
-         - {src: '{{working_dir}}pki/ca.crt', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}dh2048.pem', dest: '/etc/openvpn/server'}
-         - {src: '{{working_dir}}ta.key', dest: '/etc/openvpn/server'}      
+         - {src: '{{ working_dir }}pki/ca.crt', dest: '/etc/openvpn/server'}
+         - {src: '{{ working_dir }}pki/issued/{{server_name}}.crt', dest: '/etc/openvpn/server'}
+         - {src: '{{ working_dir }}pki/private/{{server_name}}.key', dest: '/etc/openvpn/server'}
+         - {src: '{{ working_dir }}dh2048.pem', dest: '/etc/openvpn/server'}
+         - {src: '{{ working_dir }}ta.key', dest: '/etc/openvpn/server'}      
          - {src: /usr/share/doc/openvpn-2.4.12/sample/sample-config-files/server.conf, dest: '/etc/openvpn/server/{{server_name}}.conf'}
 
     - 
        name: "Set config file"
        lineinfile:
-         path: /etc/openvpn/server/{{server_name}}.conf
-         regexp: "{{item.regexp}}" # '^(.*)cert server.crt(.*)$'
-         line: "{{item.line}}" #'cert {{server_name}}.crt'
+         path: /etc/openvpn/server/{{ server_name }}.conf
+         regexp: "{{ item.regexp }}" # '^(.*)cert server.crt(.*)$'
+         line: "{{ item.line }}" #'cert {{server_name}}.crt'
        loop:
          - { regexp: '^(.*)cert server.crt(.*)$', line: 'cert {{server_name}}.crt'}
          - { regexp: '^(.*)key server.key(.*)$', line: 'key {{server_name}}.key'}
@@ -168,7 +169,7 @@
     -
        name: "Enable and start OpenVPN service with delay and retries option"
        systemd:
-         name: openvpn-server@{{server_name}}
+         name: openvpn-server@{{ server_name }}
          state: started
          enabled: yes
        register: service
@@ -178,7 +179,7 @@
     - 
        name: "Create client-configs directory structure for the future use"
        file:
-         path: /root/client-configs/{{item.dir}}
+         path: /root/client-configs/{{ item.dir }}
          state: directory
          owner: root
          group: root
@@ -189,13 +190,14 @@
     -
        debug:
          msg:
-          - "OpenVPN service status: {{service.status.ActiveState}}" 
-          - "Run on {{server_name}}: systemctl status openvpn-server@{{server_name}})" 
+          - "OpenVPN service status: {{ service.status.ActiveState }}" 
+          - "Run on {{ server_name }}: systemctl status openvpn-server@{{ server_name }})" 
         
 
   vars: 
-    archive_file: /root/EasyRSA-3.0.8.tgz
+    archive_file: /root/EasyRSA-3.0.8.tgz 
     easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
-    easyrsa_dest: /root/
-    server_name: "{{ansible_hostname}}" 
-    working_dir: "/root/EasyRSA-3.0.8/"
+    easyrsa_dest: /root/ #unarchive file location
+    server_name: "{{ ansible_hostname }}" 
+    working_dir: "/root/EasyRSA-3.0.8/" # EasyRSA root folder
+    vars_location: "~/Linux/ansible/vars" # var file location
