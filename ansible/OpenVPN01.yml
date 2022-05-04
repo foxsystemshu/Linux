@@ -60,7 +60,6 @@
         dest: "{{ working_dir }}"
         group: root
         mode: "0600"
-        recurse: yes
         owner: root
         src: "{{ vars_location }}"
 
