@@ -1,3 +1,11 @@
+# Created by: Németh Szabolcs (EGOJHI)
+# Description: --
+# test cases:
+# OS: CentOS 7
+#  - gawk -F: -f gawk_project.awk /var/log/yum.log
+#  - gawk -F: -f gawk_project.awk /var/log/dmesg
+#  - journalctl >> journalctl.log &&  gawk -F: -f gawk_project.awk journalctl.log
+
 #!/usr/bin/gawk -f
 BEGIN {
     print "Report"

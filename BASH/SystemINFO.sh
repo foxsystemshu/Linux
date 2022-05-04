@@ -3,7 +3,9 @@
 # Created by: Nemeth Szabolcs (EGOJHI)
 # Date: 2022.05.01
 # System scanning script..
-# It's gather information about the current system, including hardware, installed packages, and users
+# The script gathers information about the current system including hardware (CPU info, Architecture Info, Memory info), installed packages, and users.
+# After that, the script will be create a result.xml, this file contains all the system's information that is mentioned above.
+# Plus feature: During the run the script test the network connectivity and print out the console.
 
 # Function name: get_hw_info
 # Args: none
@@ -17,7 +19,7 @@
 # Args: none
 # Packages info: Name, Home dir
 
-# Tested linux systems: 
+# Tested on linux systems: 
 # - CentOS 7 (Kernel: 3.10.0-1160.62.1.el7.x86_64)
 # - AlmaLinux 8.5 (Kernel: 4.18.0-348.23.1.el8_5.x86_64 )
 
@@ -124,10 +126,10 @@ function get_NET_info {
    echo "Gathering Network Informations"
    echo "-----------------------------"
    echo -e "Phase 1. - Default gateway pinging... \n"
-   ICMP_testing "192.168.1.1" #manual setting required
+   ICMP_testing "192.168.1.1" #manual set required
     
    echo -e "Phase 2. - Internet testing... \n"
-   ICMP_testing "google.com" #manual setting required
+   ICMP_testing "google.com" #manual set required
    
    echo -e "Phase 3. - Get routing table information... \n"
 
