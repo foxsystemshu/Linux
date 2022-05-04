@@ -67,14 +67,14 @@
     -
       name: "Check if PKI dir exists"
       stat:
-        path: "{{ working_dir }}pki"
+        path: "{{working_dir}}pki"
       register: pki_dir
 
     - 
       name: "Run init-pki script"
-      command: "sh {{ working_dir }}easyrsa init-pki"
+      command: "sh {{working_dir}}easyrsa init-pki"
       args:
-        chdir: "{{ working_dir }}"
+        chdir: "{{working_dir}}"
       when: not pki_dir.stat.exists
     - 
       name: "Install requied python packages"
