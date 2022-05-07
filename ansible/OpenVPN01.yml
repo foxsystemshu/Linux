@@ -9,7 +9,7 @@
 # When CA build is finished, we create a server key and request, then sign it and generate strong Diffie-Hellman key and HMAC signature (DH may take a long time!!).
 # After all the script will copy necessary files to OpenVPN config directory, and set config file parameters, then start/enable OpenVPN service.
 # For the future use the script will create client-config folder structure, also with strict permissions.
-
+# 
 # Tested on linux systems:
 # - CentOS 7 (Kernel: 3.10.0-1160.62.1.el7.x86_64)
 
@@ -19,6 +19,14 @@
   hosts: VPN
   name: "OpenVPN Install and configuration"
   gather_facts: true
+  vars: 
+    archive_file: /root/EasyRSA-3.0.8.tgz 
+    easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
+    easyrsa_dest: /root/ #unarchive file location
+    server_name: "{{ ansible_hostname }}" 
+    working_dir: "/root/EasyRSA-3.0.8/" # EasyRSA root folder
+    vars_location: "~/Linux/ansible/vars" # local var file location
+
   tasks:
     -
       name: EPEL install
@@ -193,11 +201,4 @@
           - "OpenVPN service status: {{ service.status.ActiveState }}" 
           - "Run on {{ server_name }}: systemctl status openvpn-server@{{ server_name }})" 
         
-
-  vars: 
-    archive_file: /root/EasyRSA-3.0.8.tgz 
-    easyrsa: "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz"
-    easyrsa_dest: /root/ #unarchive file location
-    server_name: "{{ ansible_hostname }}" 
-    working_dir: "/root/EasyRSA-3.0.8/" # EasyRSA root folder
-    vars_location: "~/Linux/ansible/vars" # var file location
+  
