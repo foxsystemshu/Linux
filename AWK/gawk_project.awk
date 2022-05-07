@@ -1,6 +1,10 @@
 # Created by: Németh Szabolcs (EGOJHI)
-# Description: --
-# test cases:
+# Description:
+# This AWK script is for print a log report to the console screen.
+# The script search for prohibited application installation in package manager log like torrent clients, and so on..
+# If we give system log file to the script, it categorizes to 3 group (Warning, Failed, Info) and print how many events it has counted in each of the 3 groups
+
+# Test cases:
 # OS: CentOS 7
 #  - gawk -F: -f gawk_project.awk /var/log/yum.log
 #  - gawk -F: -f gawk_project.awk /var/log/dmesg
