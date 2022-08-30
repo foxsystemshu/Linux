@@ -4,3 +4,11 @@
   hosts: Linux
   name: "Linux Patch management"
   gather_facts: true
+
+- name: List ansible packages and register result to print with debug later.
+  yum:
+    list: ansible
+  register: result
+
+- debug:
+   var: result
