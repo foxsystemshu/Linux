@@ -1,0 +1,6 @@
+--- 
+- 
+  become: true
+  hosts: Linux
+  name: "Linux Patch management"
+  gather_facts: true
