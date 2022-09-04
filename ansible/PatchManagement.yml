@@ -15,10 +15,10 @@
        dest: "Packages.patch"
        #content: "{{ result.results | map(attribute='envra' | list)}}"
        content: "{{ result | json_query('results[*].envra')}}"
-       
+
    - name: Find out what the remote machine's mounts are
      ansible.builtin.slurp:
-      src: /proc/mounts
+      src: /root/Packages.patch
      register: mounts
 
    - name: Print returned information
