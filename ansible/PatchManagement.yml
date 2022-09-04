@@ -30,6 +30,6 @@
 
    - name: loop through items
      debug: 
-      var: item
+       var: item
      loop: "{{ patch }}"
 
