@@ -31,5 +31,5 @@
    - name: loop through items
      debug: 
        var: item
-     loop: "{{ patch['content'].envra | b64decode }}"
+     loop: "{{ patch | b64decode }}"
 
