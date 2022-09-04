@@ -29,7 +29,7 @@
   #     msg: "{{ mounts['content'].envra | b64decode }}"
 
    - set_fact:
-     Patch_fact: "{{ (patch_list.content|b64decode|from_json).envra }}"
+       Patch_fact: "{{ (patch_list.content|b64decode|from_json).envra }}"
 
    - name: Print returned information
      ansible.builtin.debug:
