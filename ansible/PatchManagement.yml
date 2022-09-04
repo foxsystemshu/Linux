@@ -16,12 +16,20 @@
        #content: "{{ result.results | map(attribute='envra' | list)}}"
        content: "{{ result | json_query('results[*].envra')}}"
 
-   - name: Find out what the remote machine's mounts are
+   - name: Read patch file
      ansible.builtin.slurp:
       src: /root/Packages.patch
-     register: mounts
+     register: patch_list
 
-   - name: Print returned information
-     ansible.builtin.debug:
-       msg: "{{ mounts['content'] | b64decode }}"
-  
+  # - name: Print returned information
+  #   ansible.builtin.debug:
+  #     msg: "{{ mounts['content'].envra | b64decode }}"
+  vars:
+   patch:
+    - "{{ patch_list }}"
+
+   - name: loop through items
+     debug: 
+      var: item
+     loop: "{{ patch }}"
+
