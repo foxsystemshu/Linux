@@ -14,5 +14,5 @@
      copy:
        dest: "Packages.patch"
        #content: "{{ result.results | map(attribute='envra' | list)}}"
-       content: "{{ result.results | json_query('results[*].name')}}"
+       content: "{{ result | json_query('results[*].name')}}"
   
