@@ -24,19 +24,15 @@
       src: /root/Packages.patch
      register: patch_list
 
-  # - name: Print returned information
-  #   ansible.builtin.debug:
-  #     msg: "{{ mounts['content'].envra | b64decode }}"
-
    - set_fact:
        Patch_fact: "{{ (patch_list.content|b64decode|from_json)}}"
 
-   - name: Print returned information
-     ansible.builtin.debug:
-       msg: "{{ Patch_fact }}"
+   #- name: Print returned information
+    # ansible.builtin.debug:
+     #  msg: "{{ Patch_fact }}"
 
-   #- name: loop through items
-    # debug: 
-     #  var: item
-     #loop: "{{ patch | b64decode }}"
+   - name: loop through items
+     debug: 
+       var: item
+     loop: "{{ Patch_fact }}"
 
