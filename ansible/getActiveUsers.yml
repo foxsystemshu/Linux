@@ -1,7 +1,7 @@
 ---
 - name: Get all avtive user
   become: yes
-  hosts: VPN
+  hosts: Linux
   tasks:
   
   - name: Active users

@@ -2,7 +2,7 @@
 
 - name: Get server uptime
   become: yes
-  hosts: VPN
+  hosts: Linux
   tasks:
     - name: Get uptime
       shell: uptime
