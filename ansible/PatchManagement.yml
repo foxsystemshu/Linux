@@ -16,8 +16,8 @@
    - name: Save data to Servers
      copy:
        dest: "Packages.patch"
-       #content: "{{ result.results | map(attribute='envra' | list)}}"
-       content: "{{ result | json_query('results[*].envra')}}"
+       content: "{{ result.results | map(attribute='envra' | list)}}"
+       #content: "{{ result | json_query('results[*].envra')}}"
 
    - name: Read patch file
      ansible.builtin.slurp:
