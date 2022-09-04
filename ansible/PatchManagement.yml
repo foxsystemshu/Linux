@@ -29,7 +29,7 @@
 
    - name: Print returned information
      ansible.builtin.debug:
-       msg: "{{ Packages }}"
+       msg: "{{ result }}"
 
    - name: Update packages
      ansible.builtin.yum:
