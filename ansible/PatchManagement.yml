@@ -13,5 +13,5 @@
    - name: Save data to Servers
      copy:
        dest: "Packages.patch"
-       content: "{{ result.results | map(attribute='envra') | list }}"
+       content: "{{ result.results | map(attribute='envra')}}"
   
