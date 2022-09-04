@@ -13,7 +13,6 @@
 
    - debug:
       var: result
---- 
 - 
   become: true
   hosts: TEST_ROUND
