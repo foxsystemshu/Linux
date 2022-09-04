@@ -1,8 +1,23 @@
 --- 
 - 
   become: true
-  hosts: Linux
-  name: "Linux Patch management"
+  hosts: ALL_LINUX_SERVERS
+  name: "Collect Patch Packages ALL SERVERS"
+  gather_facts: true
+
+  tasks:
+   - name: List ansible packages and register result to print with debug later.
+     yum:
+       list: ansible
+     register: result
+
+   - debug:
+      var: result
+--- 
+- 
+  become: true
+  hosts: TEST_ROUND
+  name: ""
   gather_facts: true
 
   tasks:
