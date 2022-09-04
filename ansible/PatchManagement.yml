@@ -4,6 +4,9 @@
   hosts: ALL_LINUX_SERVERS
   name: "Collect Patch Packages on ALL SERVERS"
   gather_facts: true
+  vars:
+   patch:
+    - "{{ patch_list }}"
 
   tasks:
    - name: Get packages collection.
@@ -24,10 +27,7 @@
   # - name: Print returned information
   #   ansible.builtin.debug:
   #     msg: "{{ mounts['content'].envra | b64decode }}"
-  vars:
-   patch:
-    - "{{ patch_list }}"
-
+  
    - name: loop through items
      debug: 
        var: item
