@@ -2,27 +2,12 @@
 - 
   become: true
   hosts: ALL_LINUX_SERVERS
-  name: "Collect Patch Packages ALL SERVERS"
+  name: "Collect Patch Packages on ALL SERVERS"
   gather_facts: true
 
   tasks:
-   - name: List ansible packages and register result to print with debug later.
-     yum:
-       list: ansible
-     register: result
-
-   - debug:
-      var: result
-- 
-  become: true
-  hosts: TEST_ROUND
-  name: ""
-  gather_facts: true
-
-  tasks:
-   - name: List ansible packages and register result to print with debug later.
-     yum:
-       list: ansible
+   - name: Get packages collection.
+     yum: list=updates update_cache=true
      register: result
 
    - debug:
