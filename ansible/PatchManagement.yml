@@ -1,7 +1,7 @@
 --- 
 - 
   become: true
-  hosts: ALL_LINUX_SERVERS
+  hosts: TEST_ROUND #ALL_LINUX_SERVERS
   name: "Collect Patch Packages on ALL SERVERS"
   gather_facts: true
   vars:
@@ -25,14 +25,14 @@
      register: patch_list
 
    - set_fact:
-       Patch_fact: "{{ (patch_list.content|b64decode|from_json)}}"
+       Packages: "{{ (patch_list.content|b64decode|from_json)}}"
 
    #- name: Print returned information
     # ansible.builtin.debug:
      #  msg: "{{ Patch_fact }}"
 
-   - name: loop through items
-     debug: 
-       var: item
-     loop: "{{ Patch_fact }}"
+   - name: Update packages
+     ansible.builtin.yum:
+      name: "{{ item }}"
+     loop: "{{ Packages }}"
 
