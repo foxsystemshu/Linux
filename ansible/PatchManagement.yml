@@ -6,7 +6,7 @@
   gather_facts: true
   vars:
    patch:
-    - "{{ patch_list }}"
+    - "{{ patch_list['content'].envra | b64decode }}"
 
   tasks:
    - name: Get packages collection.
