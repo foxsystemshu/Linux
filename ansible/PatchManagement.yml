@@ -33,6 +33,6 @@
 
    - name: Update packages
      ansible.builtin.yum:
-      name: "{{ item }}"
-     with-items: "{{ Packages }}"
+       name: "{{ item }}"
+     with_items: "{{ Packages }}"
 
