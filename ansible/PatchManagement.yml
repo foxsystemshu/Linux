@@ -27,9 +27,9 @@
    - set_fact:
        Packages: "{{ (patch_list.content|b64decode|from_json)}}"
 
-   #- name: Print returned information
-    # ansible.builtin.debug:
-     #  msg: "{{ Patch_fact }}"
+   - name: Print returned information
+     ansible.builtin.debug:
+       msg: "{{ Packages }}"
 
    - name: Update packages
      ansible.builtin.yum:
