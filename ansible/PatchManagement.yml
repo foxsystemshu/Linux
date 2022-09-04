@@ -10,8 +10,8 @@
      yum: list=updates update_cache=true
      register: result
 
-  - name: Save data to Servers
-    copy:
-      dest: "Packages.patch"
-      content: "{{ result.results | map(attribute='envra') | list }}"
+   - name: Save data to Servers
+     copy:
+       dest: "Packages.patch"
+       content: "{{ result.results | map(attribute='envra') | list }}"
   
