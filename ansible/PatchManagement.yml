@@ -11,4 +11,4 @@
      register: result
 
    - debug:
-      var: result.envra
+      msg: "{{ result.results | map(attribute='name') | list }}"
