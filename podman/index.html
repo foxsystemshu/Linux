@@ -1,5 +1,117 @@
 <html>
-    <body>
-	<p>Testing...</p>
+    <head>
+        <title> Rendszermérnök specializáció 1. tétel </title>
+    </head>
+    <body style="background-color:rgb(187, 187, 187); color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <div id="conainer" style="width:45vw; text-align:justify; margin: 0 auto;">
+        <h2>Távközlő hálózatok fejlődése</h2>
+            <p>A távközlés alapvetően nagy távolságra történő kommunikációt jelent, már az Ókori Egyiptomban is jelen volt a távközlés egy formája, jelentős szerepet játszottak az információk átadók, azaz a hírvivők hálózata. Kicsit nagyobbat ugorva az időben, 1837-ben Morse kifejlesztette a távírást, majd 1876-ban Bell feltalálta a vezetékes telefon rendszert.
+                A hívások egy kézi távbeszélőközpontba futottak be és onnan kapcsolták a hívásokat.
+                A klasszikus telefonhálózatokat 3 fő részletre lehet bonthatani:</p>
+                <ul>
+                    <li>Kellettek a végberendezések, ezek lehettek <b>telefonkészülékek, faxok, modemek</b></li>
+                    <li>Kapcsoló központok, főleg nagyobb városokban helyezték el őket </li>
+                    <li>És az ezeket összekötő átviteli utak, itt két félélt különböztetünk meg:</li>
+                    <ul>
+                        <li>Az előfizetőtől az első központig voltak az előfizetői hurkok (egy réz érpár)</li>
+                        <li>Központok között:  Trönkök (koax vagy optika)</li>
+                    </ul>
+                </ul>
+        <h2>PSTN hálózat</h2>
+                <p>
+                    A PSTN mozaikszó annyit jelent, hogy Public Switched Telephone Network,
+                    ami egy hagyományos áramkörkapcsolt telefonhálózat és magában foglalja a világ összes olyan kapcsolt telefonhálózatát, amely helyi, nemzeti vagy nemzetközi szolgáltatók üzemeltetnek. Ezek a hálózatok biztosítják a nyilvános távközléshez szükséges infrastruktúrát.
+                    A PSTN lehetővé teszi a felhasználóknak, hogy vezetékes telefonhívásokat kezdeményezzenek egymással. 
+                </p>
+
+                <p>Hierarchikus architektúrával és csillagszerkezettel rendelkezik, így biztosítva a redundáns összekapcsolásokat a központokkal. 
+                    Az előfizetői vonalak egy helyi központhoz csatlakoznak, ami kommunikál a primer, szekunder és nemzeti központokkal is.
+                    Egy primer központnak saját körzet száma van, például 72-es körzet szám Pécshez tartozik. Így tudjuk azonosítani, hogy melyik központ fogadja majd a hívást.
+                 Az internet korai szakaszában a PSTN hálózaton keresztül lehetett otthoni internet előfizetést rendeli, mivel a rendszer a telefonvonalakon képes volt internet kapcsolásokra is 56 Kb/s limitig. </p>
+                <p> <b>Kihelyezett fokozat:</b> Költséghatékonyság szempontjából vannak kialakítva és azt a célt szolgálják, hogy önálló kapcsolásokat létesítsen.
+            így kevesebb kábel kell a kialakításhoz. </p>
+                <p>
+                    <b>Nemzetközi telefonhálózat:</b> Kicserélőközpontokból állnak amik szorosan össze vannak kötve egymással és csak átmenő forgalmat generálnak. 
+                </p>
+        <h2>NGN</h2>
+        <p>Az NGN, azaz Next Generation Network egy 2004-es koncepción alapul és még a mai napig tart a bevezetése.  Az alap ötlet, hogy :</p>
+        <ul>
+            <li>Egyetlen csomagkapcsolt gerinchálózat legyen</li>
+            <li>Különféle szolgáltatások legyenek egy hálózatba integrálva, például TV, Telefon, Internet</li>
+            <li>Különféle végberendezések kezelése egy azon a hálózaton </li>
+        </ul>
+        <p>Az NGN szolgáltatásokra jellemzői:</p>
+        <ul>
+            <li>Bárhol elérhető és valós idejű, multimédiás kommunikációt tesz lehetővé a felhasználók számára.</li>
+            <li>Egyszerűbbé teszi a használhatóságot </li>
+            <li>Csomag alapú ezért QoS-t is biztosít.  </li>
+            <li>Rétegelt architektúra:</li>
+            <ul>
+                <li>
+                    A hálózati szolgáltatások és a session vezérlés egyértelműen elvan választva a transzport rétegtől 
+                </li>
+                <li>
+                    A hálózati hozzáférés és a hálózat elválasztása a szolgáltatásoktól
+                </li>
+            </ul>
+        </ul>
+        <p>
+            Ezek a rétegek lehetővé teszik, hogy a fejlesztések a hálózaton függetlenül tudjanak történni. 
+        </p>
+
+        <h2>VoIP</h2>
+
+        <p> 
+            A VoIP, azaz az internetprotokoll feletti hangátvitel, ahol az IP alapú gerinchálózat segítségével (NGN) az interneten vagy más IP alapú hálózaton keresztül beszélgetéseket folytathatunk.   
+        </p>
+        <p>4 fő funkciója létezik:</p>
+
+         <ul>
+                <li>
+                    Beszédkódolás és dekódolás
+                </li>
+                <ul>
+                    <li>Kodekek használata, tipikusan G.711(PCM) -> 64kbps </li>
+                    <li>G.729 -> 8kbps (Lineáris predikciós kódolás) </li>
+                </ul>
+                <li>
+                    Beszédcsomagok szállítása
+                </li>
+                <ul>
+                    <li>Hang és videó átvitel </li>
+                    <li>Késleltetések minimalizálása </li>
+                    <li>UDP protokoll használata (Gyors, de lehetnek elveszett, újraküldetlen csomagok )</li>
+                    <li>RTP (Realtime transport protocol ) Az UDP megbízhatatlansága miatt lett kifejlesztve </li>
+                    <li>UDP-be ágyazott RTP </li>
+                    <li>RTCP (Realtime Transport Control Protocol) </li>
+                </ul>
+                <li>
+                    Jelzési feladatok
+                </li>
+                <ul>
+                    <li>Kapcsolat bontása,felépítése,fentartása: SIP és H.323 </li>
+                </ul>
+                <li>
+                    Gateway funkciók
+                </li>
+                <ul>
+                    <li>Együttműködés más hálózatokkal (PSTN,GSM) </li>
+                    <ul>
+                        <li>SS7 -SIP</li>
+                        <li>SDH -RTP</li>
+                    </ul>
+                </ul>
+        </ul>
+        <p>Példa egy H.323-es architektúrájú VoIP hálózatra:</p>
+            <img src="imgs/VOIP_h323.jpg">
+        <p><a href="https://docstore.mik.ua/univercd/cc/td/doc/product/access/sc/rel7/soln/voip/voipover/app_b.htm">További info és magyarázatt itt</a></p>
+        <h3>Források:</h3>
+        <p>
+            https://hu.wikipedia.org/wiki/Voice_over_IP 
+        </p>
+        <p>
+            http://www.hit.bme.hu/~jakab/edu/HA16/02_HA15_NGN_arch.pdf
+        </p>
+        </div>
     </body>
 </html>
