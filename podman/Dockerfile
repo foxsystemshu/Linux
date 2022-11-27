@@ -3,5 +3,6 @@ MAINTAINER Nemeth Szabolcs
 RUN yum update -y
 RUN yum install  httpd -y
 COPY index.html /var/www/html/
-EXPOSE 8080 
+RUN mkdir /var/www/html/imgs
+EXPOSE 80 
 CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
